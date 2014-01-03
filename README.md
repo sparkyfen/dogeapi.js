@@ -14,8 +14,8 @@ Version
 Installation
 -----------
 ```bash
-git clone <url>
-npm install
+npm install git+<repo>
+edit src/settings.js
 ```
 
 Examples

@@ -26,6 +26,7 @@
       "url": "http://www.tldrlegal.com/license/mit-license"
     }
   ],
+  "main": "src/index.js",
   "engines": {
     "node": ">=0.8.0"
   },
