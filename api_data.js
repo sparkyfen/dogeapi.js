@@ -1,9 +1,9 @@
 define({ api: [
   {
     "type": "get",
-    "url": "/wow/?api_key=API_KEY&a=get_address_by_label&address_label=ADDRESS_LABEL",
+    "url": "/wow/?api_key={API_KEY}&a=get_address_by_label&address_label={ADDRESS_LABEL}",
     "title": "Get Address By Label",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "GetAddressByLabel",
     "group": "DogeCoin",
     "permission": {
@@ -11,7 +11,7 @@ define({ api: [
       "title": "Authenticated access is required.",
       "description": "An API key is required.\n"
     },
-    "description": "Returns the payment address for the given ADDRESS_LABEL",
+    "description": "Returns the payment address for the given {ADDRESS_LABEL}",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -42,7 +42,7 @@ define({ api: [
     "examples": [
       {
         "title": "CURL example:",
-        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_address_by_label&address_label=ADDRESS_LABEL'\n"
+        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_by_label&address_label={ADDRESS_LABEL}'\n"
       }
     ],
     "success": {
@@ -66,15 +66,15 @@ define({ api: [
     },
     "error": {
       "fields": {
-        "200": [
+        "Success 200": [
           {
-            "group": "200",
+            "group": "Success 200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
           },
           {
-            "group": "200",
+            "group": "Success 200",
             "field": "InvalidAddress",
             "optional": false,
             "description": "The user's address key is invalid."
@@ -95,10 +95,10 @@ define({ api: [
     "filename": "src/index.js"
   },
   {
-    "type": "",
-    "url": "{get}/wow/?api_key=API_KEY&a=get_address_received&payment_address=PAYMENT_ADDRESS",
-    "title": "Get Address Received",
-    "version": "0.0.1",
+    "type": "get}/wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS",
+    "url": "Get",
+    "title": "Address Received",
+    "version": "1.0.0",
     "name": "GetAddressReceived",
     "group": "DogeCoin",
     "permission": {
@@ -106,7 +106,7 @@ define({ api: [
       "title": "Authenticated access is required.",
       "description": "An API key is required.\n"
     },
-    "description": "Returns the current amount received to all addresses with ADDRESS_LABEL or PAYMENT_ADDRESS.",
+    "description": "Returns the current amount received to all addresses with {ADDRESS_LABEL} or {PAYMENT_ADDRESS}.",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -144,11 +144,11 @@ define({ api: [
     "examples": [
       {
         "title": "CURL example:",
-        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_address_received&payment_address=PAYMENT_ADDRESS'\n"
+        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS}'\n"
       },
       {
         "title": "CURL example:",
-        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_address_received&address_label=ADDRESS_LABEL'\n"
+        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_received&address_label={ADDRESS_LABEL}'\n"
       }
     ],
     "success": {
@@ -172,9 +172,9 @@ define({ api: [
     },
     "error": {
       "fields": {
-        "200": [
+        "Success 200": [
           {
-            "group": "200",
+            "group": "Success 200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
@@ -192,9 +192,9 @@ define({ api: [
   },
   {
     "type": "get",
-    "url": "/wow/?api_key=API_KEY&a=get_balance",
+    "url": "/wow/?api_key={API_KEY}&a=get_balance",
     "title": "Get Balance",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "GetBalance",
     "group": "DogeCoin",
     "permission": {
@@ -226,7 +226,7 @@ define({ api: [
     "examples": [
       {
         "title": "CURL example:",
-        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_balance'\n"
+        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_balance'\n"
       }
     ],
     "success": {
@@ -250,9 +250,9 @@ define({ api: [
     },
     "error": {
       "fields": {
-        "200": [
+        "Success 200": [
           {
-            "group": "200",
+            "group": "Success 200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
@@ -272,7 +272,7 @@ define({ api: [
     "type": "get",
     "url": "/wow/?a=get_difficulty",
     "title": "Get Difficulty",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "GetDifficulty",
     "group": "DogeCoin",
     "permission": {
@@ -323,9 +323,9 @@ define({ api: [
   },
   {
     "type": "get",
-    "url": "/wow/?api_key=API_KEY&a=get_my_addresses",
+    "url": "/wow/?api_key={API_KEY}&a=get_my_addresses",
     "title": "Get My Addresses",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "GetMyAddresses",
     "group": "DogeCoin",
     "permission": {
@@ -357,7 +357,7 @@ define({ api: [
     "examples": [
       {
         "title": "CURL example:",
-        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_my_addresses'\n"
+        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_my_addresses'\n"
       }
     ],
     "success": {
@@ -381,9 +381,9 @@ define({ api: [
     },
     "error": {
       "fields": {
-        "200": [
+        "Success 200": [
           {
-            "group": "200",
+            "group": "Success 200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
@@ -401,9 +401,9 @@ define({ api: [
   },
   {
     "type": "get",
-    "url": "/wow/?api_key=API_KEY&a=get_new_address&address_label=ADDRESS_LABEL",
+    "url": "/wow/?api_key={API_KEY}&a=get_new_address&address_label={ADDRESS_LABEL}",
     "title": "Get New Address",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "GetNewAddress",
     "group": "DogeCoin",
     "permission": {
@@ -411,7 +411,7 @@ define({ api: [
       "title": "Authenticated access is required.",
       "description": "An API key is required.\n"
     },
-    "description": "Returns a new payment address for your account. You can pass an optional alphanumeric ADDRESS_LABEL as a label for the address.",
+    "description": "Returns a new payment address for your account. You can pass an optional alphanumeric {ADDRESS_LABEL} as a label for the address.",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -442,7 +442,7 @@ define({ api: [
     "examples": [
       {
         "title": "CURL example:",
-        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_new_address&address_label=ADDRESS_LABEL'\n"
+        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_new_address&address_label={ADDRESS_LABEL}'\n"
       }
     ],
     "success": {
@@ -466,9 +466,9 @@ define({ api: [
     },
     "error": {
       "fields": {
-        "200": [
+        "Success 200": [
           {
-            "group": "200",
+            "group": "Success 200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
@@ -488,7 +488,7 @@ define({ api: [
     "type": "get",
     "url": "/wow/?a=get_current_block",
     "title": "Get Current Block",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "Get_Current_Block",
     "group": "DogeCoin",
     "permission": {
@@ -539,9 +539,9 @@ define({ api: [
   },
   {
     "type": "get",
-    "url": "/wow/?api_key=API_KEY&a=withdraw&amount=AMOUNT&payment_address=PAYMENT_ADDRESS",
+    "url": "/wow/?api_key={API_KEY}&a=withdraw&amount={AMOUNT}&payment_address={PAYMENT_ADDRESS}",
     "title": "Withdraw",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "name": "Withdraw",
     "group": "DogeCoin",
     "permission": {
@@ -549,7 +549,7 @@ define({ api: [
       "title": "Authenticated access is required.",
       "description": "An API key is required.\n"
     },
-    "description": "Withdraws AMOUNT doge to a PAYMENT_ADDRESS you specify.",
+    "description": "Withdraws AMOUNT doge to a {PAYMENT_ADDRESS} you specify.",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -587,7 +587,7 @@ define({ api: [
     "examples": [
       {
         "title": "CURL example:",
-        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=withdraw&amount=AMOUNT&payment_address=PAYMENT_ADDRESS'\n"
+        "content": "    curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=withdraw&amount={AMOUNT}&payment_address={PAYMENT_ADDRESS}'\n"
       }
     ],
     "success": {
@@ -614,12 +614,6 @@ define({ api: [
         "200": [
           {
             "group": "200",
-            "field": "InvalidAPIKey",
-            "optional": false,
-            "description": "The user's API key is either missing or invalid."
-          },
-          {
-            "group": "200",
             "field": "NotEnoughDoge",
             "optional": false,
             "description": "The user does not have enough Doge in their account."
@@ -629,6 +623,14 @@ define({ api: [
             "field": "BadQuery",
             "optional": false,
             "description": "The query was invalid, probably indicated a missing parameter"
+          }
+        ],
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "field": "InvalidAPIKey",
+            "optional": false,
+            "description": "The user's API key is either missing or invalid."
           }
         ]
       },
@@ -650,14 +652,14 @@ define({ api: [
     "filename": "src/index.js"
   },
   {
-    "version": "0.0.1",
+    "version": "1.0.0",
     "group": "index.js",
     "type": "",
     "url": "",
     "filename": "src/index.js"
   },
   {
-    "version": "0.0.1",
+    "version": "1.0.0",
     "group": "index.js",
     "type": "",
     "url": "",
