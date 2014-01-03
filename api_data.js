@@ -450,7 +450,7 @@ define({ api: [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "int",
+            "type": "String",
             "field": "address",
             "optional": false,
             "description": "The address created"
