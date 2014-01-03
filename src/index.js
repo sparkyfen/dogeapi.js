@@ -155,7 +155,7 @@ var getNewAddress = function (addressLabel, callback) {
 			try {
 				check(addressLabel).isAlphanumeric();
 				apiQuery + '&address_label=' + addressLabel;
-			} catch(e) {
+			} catch(error) {
 				return callback(error.message);
 			}
 		}
