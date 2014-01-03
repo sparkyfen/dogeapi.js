@@ -213,7 +213,7 @@ var getAddresses = function (callback) {
 };
 
 /**
- * @api {get}/wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS} Get Address Received
+ * @api {get} /wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS} Get Address Received
  * @apiVersion 1.0.0
  * @apiName GetAddressReceived
  * @apiGroup DogeCoin
