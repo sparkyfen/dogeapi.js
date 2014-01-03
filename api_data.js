@@ -95,9 +95,9 @@ define({ api: [
     "filename": "src/index.js"
   },
   {
-    "type": "get}/wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS",
-    "url": "Get",
-    "title": "Address Received",
+    "type": "get",
+    "url": "/wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS}",
+    "title": "Get Address Received",
     "version": "1.0.0",
     "name": "GetAddressReceived",
     "group": "DogeCoin",
