@@ -1,10 +1,14 @@
 /**
  * @apiDefinePermission public Public access for anyone.
- * @apiDefinePermission user Authenticated access is required.
  *
  * @apiVersion 0.0.1
  */
 
+/**
+ * @apiDefinePermission user Authenticated access is required.
+ *
+ * @apiVersion 0.0.1
+ */
 var settings = require('./settings.js');
 var APIKEY = settings.apikey;
 var request = require('request');
@@ -12,9 +16,10 @@ var check = require('validator').check;
 var ENDPOINT = settings.endpoint;
 
 /**
- * @api {get} /wow/?api_key={API_KEY}&a=get_balance Get Balance
+ * @api {get} /wow/?api_key=API_KEY&a=get_balance Get Balance
  * @apiVersion 0.0.1
  * @apiName GetBalance
+ * @apiGroup DogeCoin
  * @apiPermission user
  *
  * @apiDescription Returns the DOGE balance of your entire account to 8 decimal places.
@@ -23,7 +28,7 @@ var ENDPOINT = settings.endpoint;
  * @apiParam {String} a The action to perform
  *
  * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_balance'
+ *      curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_balance'
  *
  * @apiSuccess {int} amount The amount in the entire account
  *
@@ -53,12 +58,13 @@ var getBalance = function (callback) {
 };
 
 /**
- * @api {get} /wow/?api_key={API_KEY}&a=withdraw&amount={AMOUNT}&payment_address={PAYMENT_ADDRESS} Withdraw
+ * @api {get} /wow/?api_key=API_KEY&a=withdraw&amount=AMOUNT&payment_address=PAYMENT_ADDRESS Withdraw
  * @apiVersion 0.0.1
  * @apiName Withdraw
+ * @apiGroup DogeCoin
  * @apiPermission user
  *
- * @apiDescription Withdraws {AMOUNT} doge to a {PAYMENT_ADDRESS} you specify.
+ * @apiDescription Withdraws AMOUNT doge to a PAYMENT_ADDRESS you specify.
  * 
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
@@ -66,9 +72,9 @@ var getBalance = function (callback) {
  * @apiParam {String} payment_address The account to withdraw to
  *
  * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=withdraw&amount={AMOUNT}&payment_address={PAYMENT_ADDRESS}'
+ *      curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=withdraw&amount=AMOUNT&payment_address=PAYMENT_ADDRESS'
  *
- * @apiSuccess {int} trascationid The unique trascation id on the market
+ * @apiSuccess {int} transaction The unique transaction id on the market
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
@@ -111,19 +117,20 @@ var withdraw = function (amount, paymentAddress, callback) {
 };
 
 /**
- * @api {get} /wow/?api_key={API_KEY}&a=get_new_address&address_label={ADDRESS_LABEL} Get New Address
+ * @api {get} /wow/?api_key=API_KEY&a=get_new_address&address_label=ADDRESS_LABEL Get New Address
  * @apiVersion 0.0.1
  * @apiName GetNewAddress
+ * @apiGroup DogeCoin
  * @apiPermission user
  *
- * @apiDescription Returns a new payment address for your account. You can pass an optional alphanumeric {ADDRESS_LABEL} as a label for the address.
+ * @apiDescription Returns a new payment address for your account. You can pass an optional alphanumeric ADDRESS_LABEL as a label for the address.
  * 
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
  * @apiParam {String} address_label The optional, alphanumerical address label for the wallet
  *
  * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_new_address&address_label={ADDRESS_LABEL}'
+ *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_new_address&address_label=ADDRESS_LABEL'
  *
  * @apiSuccess {int} amount The amount in the entire account
  *
@@ -162,9 +169,10 @@ var getNewAddress = function (addressLabel, callback) {
 };
 
 /**
- * @api {get} /wow/?api_key={API_KEY}&a=get_my_addresses Get My Addresses
+ * @api {get} /wow/?api_key=API_KEY&a=get_my_addresses Get My Addresses
  * @apiVersion 0.0.1
  * @apiName GetMyAddresses
+ * @apiGroup DogeCoin
  * @apiPermission user
  *
  * @apiDescription Returns all payment addresses/address_ids for your account.
@@ -173,7 +181,7 @@ var getNewAddress = function (addressLabel, callback) {
  * @apiParam {String} a The action to perform
  *
  * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_my_addresses'
+ *      curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_my_addresses'
  *
  * @apiSuccess {Array} addresses The list of addresses on your account.
  *
@@ -203,12 +211,13 @@ var getAddresses = function (callback) {
 };
 
 /**
- * @api {get}/wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS} Get Address Received
+ * @api {get}/wow/?api_key=API_KEY&a=get_address_received&payment_address=PAYMENT_ADDRESS Get Address Received
  * @apiVersion 0.0.1
  * @apiName GetAddressReceived
+ * @apiGroup DogeCoin
  * @apiPermission user
  *
- * @apiDescription Returns the current amount received to all addresses with {ADDRESS_LABEL} or {PAYMENT_ADDRESS}.
+ * @apiDescription Returns the current amount received to all addresses with ADDRESS_LABEL or PAYMENT_ADDRESS.
  * 
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
@@ -216,10 +225,10 @@ var getAddresses = function (callback) {
  * @apiParam {String} address_label The address label to check the amount with
  *
  * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS}'
+ *      curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_address_received&payment_address=PAYMENT_ADDRESS'
  *      
  * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_received&address_label={ADDRESS_LABEL}'
+ *      curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_address_received&address_label=ADDRESS_LABEL'
  *      
  * @apiSuccess {Array} addresses The list of addresses on your account.
  *
@@ -261,19 +270,20 @@ var getAddressReceived = function (paymentAddress, addressLabel, callback) {
 };
 
 /**
- * @api {get} /wow/?api_key={API_KEY}&a=get_address_by_label&address_label={ADDRESS_LABEL} Get Address By Label
+ * @api {get} /wow/?api_key=API_KEY&a=get_address_by_label&address_label=ADDRESS_LABEL Get Address By Label
  * @apiVersion 0.0.1
  * @apiName GetAddressByLabel
+ * @apiGroup DogeCoin
  * @apiPermission user
  *
- * @apiDescription Returns the payment address for the given {ADDRESS_LABEL}
+ * @apiDescription Returns the payment address for the given ADDRESS_LABEL
  * 
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
  * @apiParam {String} address_label The address label to check the amount with
  * 
  * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_by_label&address_label={ADDRESS_LABEL}'
+ *      curl -X GET 'https://dogeapi.com/wow/?api_key=API_KEY&a=get_address_by_label&address_label=ADDRESS_LABEL'
  *
  * @apiSuccess {String} address The addresses on your account.
  *
@@ -282,17 +292,11 @@ var getAddressReceived = function (paymentAddress, addressLabel, callback) {
  *     "DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX"
  *
  * @apiError InvalidAPIKey The user's API key is either missing or invalid.
- * 
+ * @apiError InvalidAddress The user's address key is invalid.
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Invalid API Key"
- *
- * @apiError InvalidAddress The user's address key is invalid.
- * 
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     null
- *
+ *     
  */
 var getAddressByLabel = function (addressLabel, callback) {
 	_checkAPIKey(function (error) {
@@ -313,6 +317,7 @@ var getAddressByLabel = function (addressLabel, callback) {
  * @api {get} /wow/?a=get_difficulty Get Difficulty
  * @apiVersion 0.0.1
  * @apiName GetDifficulty
+ * @apiGroup DogeCoin
  * @apiPermission public
  *
  * @apiDescription Returns the current difficulty. This doesn't require an API key.
@@ -344,6 +349,7 @@ var getDifficulty = function (callback) {
  * @api {get} /wow/?a=get_current_block Get Current Block
  * @apiVersion 0.0.1
  * @apiName Get Current Block
+ * @apiGroup DogeCoin
  * @apiPermission public
  *
  * @apiDescription Returns the current block. This doesn't require an API key.
