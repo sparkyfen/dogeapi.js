@@ -27,3 +27,7 @@ Testing
 ```bash
 npm test
 ```
+
+API Docs
+--------
+Check out the [Github Pages](http://brutalhonesty.github.io/dogeapi.js/)
