@@ -134,7 +134,7 @@ var withdraw = function (amount, paymentAddress, callback) {
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_new_address&address_label={ADDRESS_LABEL}'
  *
- * @apiSuccess {int} amount The amount in the entire account
+ * @apiSuccess {int} address The address created
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK

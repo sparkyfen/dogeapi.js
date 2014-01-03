@@ -16,11 +16,11 @@ dogeAPI.withdraw(amount, paymentAddress, function (error, transactionid) {
 });
 
 // Get a new address created
-dogeAPI.getNewAddress(addressLabel, function (error, amount) {
+dogeAPI.getNewAddress(addressLabel, function (error, address) {
 	if(error) {
 		// Handle error
 	}
-	console.log(amount);
+	console.log(address);
 });
 
 // Get addresses
