@@ -9,7 +9,7 @@
     "permission": {
       "name": "user",
       "title": "Authenticated access is required.",
-      "description": ""
+      "description": "An API key is required.\n"
     },
     "description": "Returns the payment address for the given ADDRESS_LABEL",
     "parameter": {
@@ -66,15 +66,15 @@
     },
     "error": {
       "fields": {
-        "Error 4xx": [
+        "200": [
           {
-            "group": "Error 4xx",
+            "group": "200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
           },
           {
-            "group": "Error 4xx",
+            "group": "200",
             "field": "InvalidAddress",
             "optional": false,
             "description": "The user's address key is invalid."
@@ -85,6 +85,10 @@
         {
           "title": "Error-Response (example):",
           "content": "   HTTP/1.1 200 OK\n   \"Invalid API Key\"\n"
+        },
+        {
+          "title": "Error-Response (example):",
+          "content": "   HTTP/1.1 200 OK\n   null\n"
         }
       ]
     },
@@ -100,7 +104,7 @@
     "permission": {
       "name": "user",
       "title": "Authenticated access is required.",
-      "description": ""
+      "description": "An API key is required.\n"
     },
     "description": "Returns the current amount received to all addresses with ADDRESS_LABEL or PAYMENT_ADDRESS.",
     "parameter": {
@@ -168,9 +172,9 @@
     },
     "error": {
       "fields": {
-        "Error 4xx": [
+        "200": [
           {
-            "group": "Error 4xx",
+            "group": "200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
@@ -196,7 +200,7 @@
     "permission": {
       "name": "user",
       "title": "Authenticated access is required.",
-      "description": ""
+      "description": "An API key is required.\n"
     },
     "description": "Returns the DOGE balance of your entire account to 8 decimal places.",
     "parameter": {
@@ -246,9 +250,9 @@
     },
     "error": {
       "fields": {
-        "Error 4xx": [
+        "200": [
           {
-            "group": "Error 4xx",
+            "group": "200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
@@ -273,8 +277,8 @@
     "group": "DogeCoin",
     "permission": {
       "name": "public",
-      "title": "Public access for anyone.",
-      "description": ""
+      "title": "This information is publicly accessible.",
+      "description": "No authentication is required.\n"
     },
     "description": "Returns the current difficulty. This doesn't require an API key.",
     "parameter": {
@@ -327,7 +331,7 @@
     "permission": {
       "name": "user",
       "title": "Authenticated access is required.",
-      "description": ""
+      "description": "An API key is required.\n"
     },
     "description": "Returns all payment addresses/address_ids for your account.",
     "parameter": {
@@ -377,9 +381,9 @@
     },
     "error": {
       "fields": {
-        "Error 4xx": [
+        "200": [
           {
-            "group": "Error 4xx",
+            "group": "200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
@@ -405,7 +409,7 @@
     "permission": {
       "name": "user",
       "title": "Authenticated access is required.",
-      "description": ""
+      "description": "An API key is required.\n"
     },
     "description": "Returns a new payment address for your account. You can pass an optional alphanumeric ADDRESS_LABEL as a label for the address.",
     "parameter": {
@@ -462,9 +466,9 @@
     },
     "error": {
       "fields": {
-        "Error 4xx": [
+        "200": [
           {
-            "group": "Error 4xx",
+            "group": "200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
@@ -489,8 +493,8 @@
     "group": "DogeCoin",
     "permission": {
       "name": "public",
-      "title": "Public access for anyone.",
-      "description": ""
+      "title": "This information is publicly accessible.",
+      "description": "No authentication is required.\n"
     },
     "description": "Returns the current block. This doesn't require an API key.",
     "parameter": {
@@ -543,7 +547,7 @@
     "permission": {
       "name": "user",
       "title": "Authenticated access is required.",
-      "description": ""
+      "description": "An API key is required.\n"
     },
     "description": "Withdraws AMOUNT doge to a PAYMENT_ADDRESS you specify.",
     "parameter": {
@@ -607,21 +611,21 @@
     },
     "error": {
       "fields": {
-        "Error 4xx": [
+        "200": [
           {
-            "group": "Error 4xx",
+            "group": "200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
           },
           {
-            "group": "Error 4xx",
+            "group": "200",
             "field": "NotEnoughDoge",
             "optional": false,
             "description": "The user does not have enough Doge in their account."
           },
           {
-            "group": "Error 4xx",
+            "group": "200",
             "field": "BadQuery",
             "optional": false,
             "description": "The query was invalid, probably indicated a missing parameter"
