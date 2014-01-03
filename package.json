@@ -1,0 +1,36 @@
+{
+  "name": "dogeapi.js",
+  "description": "NodeJS module for https://dogeapi.com/",
+  "version": "0.0.1",
+  "maintainers": [
+    {
+      "name": "Adam Schodde",
+      "email": "sparky1010+github@gmail.com",
+      "web": "http://www.quailcity.com"
+    }
+  ],
+  "dependencies": {
+    "request": "*",
+    "validator": "*"
+  },
+  "devDependencies": {},
+  "repository": [
+    {
+      "type": "git",
+      "url": "https://github.com/brutalhonesty/dogeapi.js.git"
+    }
+  ],
+  "licenses": [
+    {
+      "name": "MIT",
+      "url": "http://www.tldrlegal.com/license/mit-license"
+    }
+  ],
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "install": "cp settings.js.template settings.js && npm install jasmine-node-karma -g",
+    "test": "jasmine-node-karma test/"
+  }
+}
