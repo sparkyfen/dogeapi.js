@@ -1,12 +1,14 @@
 /**
- * @apiDefinePermission public Public access for anyone.
+ * @apiDefinePermission public This information is publicly accessible.
+ * No authentication is required.
  *
  * @apiVersion 0.0.1
  */
 
 /**
  * @apiDefinePermission user Authenticated access is required.
- *
+ * An API key is required.
+ * 
  * @apiVersion 0.0.1
  */
 var settings = require('./settings.js');
@@ -36,7 +38,7 @@ var ENDPOINT = settings.endpoint;
  *     HTTP/1.1 200 OK
  *     18.95245109
  *
- * @apiError InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (200) InvalidAPIKey The user's API key is either missing or invalid.
  * 
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
@@ -80,19 +82,19 @@ var getBalance = function (callback) {
  *     HTTP/1.1 200 OK
  *     "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"
  *
- * @apiError InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (200) InvalidAPIKey The user's API key is either missing or invalid.
  * 
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Invalid API Key"
  *
- * @apiError NotEnoughDoge The user does not have enough Doge in their account.
+ * @apiError (200) NotEnoughDoge The user does not have enough Doge in their account.
  * 
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Not enough Doge"
  *
- * @apiError BadQuery The query was invalid, probably indicated a missing parameter
+ * @apiError (200) BadQuery The query was invalid, probably indicated a missing parameter
  * 
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
@@ -138,7 +140,7 @@ var withdraw = function (amount, paymentAddress, callback) {
  *     HTTP/1.1 200 OK
  *     "DQrzy6eccdPZ4n3Hi6oD6XZ4ndBFRX"
  *
- * @apiError InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (200) InvalidAPIKey The user's API key is either missing or invalid.
  * 
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
@@ -189,7 +191,7 @@ var getNewAddress = function (addressLabel, callback) {
  *     HTTP/1.1 200 OK
  *     ["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX", "DQrzy5eci6oZ4n9HD6XFRX4dnBZ4ncdPdB"]
  *
- * @apiError InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (200) InvalidAPIKey The user's API key is either missing or invalid.
  * 
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
@@ -236,7 +238,7 @@ var getAddresses = function (callback) {
  *     HTTP/1.1 200 OK
  *     ["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX", "DQrzy5eci6oZ4n9HD6XFRX4dnBZ4ncdPdB"]
  *
- * @apiError InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (200) InvalidAPIKey The user's API key is either missing or invalid.
  * 
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
@@ -291,12 +293,15 @@ var getAddressReceived = function (paymentAddress, addressLabel, callback) {
  *     HTTP/1.1 200 OK
  *     "DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX"
  *
- * @apiError InvalidAPIKey The user's API key is either missing or invalid.
- * @apiError InvalidAddress The user's address key is invalid.
+ * @apiError (200) InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (200) InvalidAddress The user's address key is invalid.
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Invalid API Key"
- *     
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 200 OK
+ *     null
  */
 var getAddressByLabel = function (addressLabel, callback) {
 	_checkAPIKey(function (error) {
