@@ -1,4 +1,4 @@
-var dogeAPI = require('../../index.js');
+var dogeAPI = require('../../src/index.js');
 
 // Get balance
 dogeAPI.getBalance(function (error, balance) {

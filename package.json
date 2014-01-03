@@ -30,7 +30,7 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "install": "cp settings.js.template settings.js && npm install jasmine-node-karma -g",
+    "install": "cp src/settings.js.template src/settings.js && npm install jasmine-node-karma -g",
     "test": "jasmine-node-karma test/"
   }
 }
