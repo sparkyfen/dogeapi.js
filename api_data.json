@@ -451,9 +451,9 @@
           {
             "group": "Success 200",
             "type": "int",
-            "field": "amount",
+            "field": "address",
             "optional": false,
-            "description": "The amount in the entire account"
+            "description": "The address created"
           }
         ]
       },
