@@ -35,3 +35,6 @@ Check out the [Github Pages](http://brutalhonesty.github.io/dogeapi.js/)
 License
 -------
 [MIT](http://www.tldrlegal.com/license/mit-license)
+
+
+Donations: ````DTzhH5mM6xxdYazhzLKX7Yax9aS1auoLQt```
