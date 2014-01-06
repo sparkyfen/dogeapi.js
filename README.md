@@ -37,4 +37,4 @@ License
 [MIT](http://www.tldrlegal.com/license/mit-license)
 
 
-Donations: ````DTzhH5mM6xxdYazhzLKX7Yax9aS1auoLQt```
+Donations: ```DTzhH5mM6xxdYazhzLKX7Yax9aS1auoLQt```
