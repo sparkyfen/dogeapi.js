@@ -24,9 +24,7 @@ Check /example folder
 
 Testing
 -------
-```bash
-npm test
-```
+In progress
 
 API Docs
 --------

@@ -29,7 +29,7 @@ describe('Doge API', function () {
 		});
 	});
 	it('returns the current block on the network', function () {
-		dogeAPI.getDifficulty(function (error, currentBlock) {
+		dogeAPI.getCurrentBlock(function (error, currentBlock) {
 			expect(currentBlock).not.toBe(null);
 		});
 	});
