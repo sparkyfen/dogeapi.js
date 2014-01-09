@@ -36,3 +36,7 @@ License
 
 
 Donations: ```DTzhH5mM6xxdYazhzLKX7Yax9aS1auoLQt```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/brutalhonesty/dogeapi.js/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
