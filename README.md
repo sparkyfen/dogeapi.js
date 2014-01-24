@@ -1,7 +1,7 @@
 DogeAPI.js
 ==========
 
-As per the [documentation](https://dogeapi.com/api_documentation), the API is currently in testing mode only!
+As per the [documentation](https://dogeapi.com/api_documentation), the API is ~~currently in testing mode only~~ now live!
 
 Author
 ------
