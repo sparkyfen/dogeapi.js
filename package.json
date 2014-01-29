@@ -10,8 +10,8 @@
     }
   ],
   "dependencies": {
-    "request": "*",
-    "validator": "*"
+    "request": "~2.33.0",
+    "validator": "~3.2.0"
   },
   "devDependencies": {},
   "repository": [
@@ -31,7 +31,7 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "install": "cp src/settings.js.template src/settings.js && npm install jasmine-node-karma -g",
+    "install": "cp src/settings.js.template src/settings.js && npm install jasmine-node-karma@1.6.1 -g",
     "test": "jasmine-node-karma test/"
   }
 }

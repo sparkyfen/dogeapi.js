@@ -14,7 +14,7 @@
 var settings = require('./settings.js');
 var APIKEY = settings.apikey;
 var request = require('request');
-var check = require('validator').check;
+var validator = require('validator');
 var ENDPOINT = settings.endpoint;
 
 /**
@@ -152,11 +152,10 @@ var getNewAddress = function (addressLabel, callback) {
 		if(error) return callback(error);
 		var apiQuery = 'wow/?api_key=' + APIKEY + '&a=get_new_address'
 		if(addressLabel) {
-			try {
-				check(addressLabel).isAlphanumeric();
+			if(validator.isAlphanumeric(addressLabel)) {
 				apiQuery += '&address_label=' + addressLabel;
-			} catch(error) {
-				return callback(error.message);
+			} else {
+				return callback('Invalid address label.');
 			}
 		}
 		request(ENDPOINT + apiQuery, function (error, response, body) {
