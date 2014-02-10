@@ -539,6 +539,73 @@ define({ api: [
   },
   {
     "type": "get",
+    "url": "/wow/?a=get_current_price",
+    "title": "Get Current Price",
+    "version": "1.0.0",
+    "name": "Get_Current_Price",
+    "group": "DogeCoin",
+    "permission": {
+      "name": "public",
+      "title": "This information is publicly accessible.",
+      "description": "No authentication is required.\n"
+    },
+    "description": "Returns the current price in USD or BTC. This doesn't require an API key.",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "field": "a",
+            "optional": false,
+            "description": "The action to perform"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "field": "convert_to",
+            "optional": false,
+            "description": "To convert to USD or BTC (Defaults to USD)"
+          },
+          {
+            "group": "Parameter",
+            "type": "Int",
+            "field": "amount_doge",
+            "optional": false,
+            "description": "The amount of Doge to convert (Defaults to 1 Doge.)"
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "CURL example:",
+        "content": "    curl -X GET 'https://dogeapi.com/wow/?a=get_current_price&convert_to=BTC&amount_doge=1000'\n"
+      }
+    ],
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "int",
+            "field": "currentPrice",
+            "optional": false,
+            "description": "The current price of BTC or USD for the Doge amount given."
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response (example):",
+          "content": "   HTTP/1.1 200 OK\n   0.00206000\n"
+        }
+      ]
+    },
+    "filename": "src/index.js"
+  },
+  {
+    "type": "get",
     "url": "/wow/?api_key={API_KEY}&a=withdraw&amount={AMOUNT}&payment_address={PAYMENT_ADDRESS}",
     "title": "Withdraw",
     "version": "1.0.0",
