@@ -33,4 +33,15 @@ describe('Doge API', function () {
 			expect(currentBlock).not.toBe(null);
 		});
 	});
+	it('returns the current price of BTC to DOGE', function () {
+		dogeAPI.getCurrentPrice('BTC', 1, function (error, currentPrice) {
+			expect(currentPrice).not.toBe(null);
+		});
+		dogeAPI.getCurrentPrice(100, function (error, currentPrice) {
+			expect(currentPrice).not.toBe(null);
+		});
+		dogeAPI.getCurrentPrice('BTC', function (error, currentPrice) {
+			expect(currentPrice).not.toBe(null);
+		});
+	});
 });

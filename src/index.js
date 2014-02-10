@@ -8,7 +8,7 @@
 /**
  * @apiDefinePermission user Authenticated access is required.
  * An API key is required.
- * 
+ *
  * @apiVersion 1.0.0
  */
 var settings = require('./settings.js');
@@ -25,7 +25,7 @@ var ENDPOINT = settings.endpoint;
  * @apiPermission user
  *
  * @apiDescription Returns the DOGE balance of your entire account to 8 decimal places.
- * 
+ *
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
  *
@@ -39,11 +39,11 @@ var ENDPOINT = settings.endpoint;
  *     18.95245109
  *
  * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- * 
+ *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Invalid API Key"
- *     
+ *
  */
 var getBalance = function (callback) {
 	_checkAPIKey(function (error) {
@@ -67,7 +67,7 @@ var getBalance = function (callback) {
  * @apiPermission user
  *
  * @apiDescription Withdraws AMOUNT doge to a {PAYMENT_ADDRESS} you specify.
- * 
+ *
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
  * @apiParam {int} amount The amount to withdraw
@@ -83,23 +83,23 @@ var getBalance = function (callback) {
  *     "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"
  *
  * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- * 
+ *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Invalid API Key"
  *
  * @apiError (200) NotEnoughDoge The user does not have enough Doge in their account.
- * 
+ *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Not enough Doge"
  *
  * @apiError (200) BadQuery The query was invalid, probably indicated a missing parameter
- * 
+ *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Bad Query"
- * 
+ *
  */
 var withdraw = function (amount, paymentAddress, callback) {
 	_checkAPIKey(function (error) {
@@ -126,7 +126,7 @@ var withdraw = function (amount, paymentAddress, callback) {
  * @apiPermission user
  *
  * @apiDescription Returns a new payment address for your account. You can pass an optional alphanumeric {ADDRESS_LABEL} as a label for the address.
- * 
+ *
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
  * @apiParam {String} address_label The optional, alphanumerical address label for the wallet
@@ -141,11 +141,11 @@ var withdraw = function (amount, paymentAddress, callback) {
  *     "DQrzy6eccdPZ4n3Hi6oD6XZ4ndBFRX"
  *
  * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- * 
+ *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Invalid API Key"
- *     
+ *
  */
 var getNewAddress = function (addressLabel, callback) {
 	_checkAPIKey(function (error) {
@@ -177,7 +177,7 @@ var getNewAddress = function (addressLabel, callback) {
  * @apiPermission user
  *
  * @apiDescription Returns all payment addresses/address_ids for your account.
- * 
+ *
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
  *
@@ -191,11 +191,11 @@ var getNewAddress = function (addressLabel, callback) {
  *     ["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX", "DQrzy5eci6oZ4n9HD6XFRX4dnBZ4ncdPdB"]
  *
  * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- * 
+ *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Invalid API Key"
- *     
+ *
  */
 var getAddresses = function (callback) {
 	_checkAPIKey(function (error) {
@@ -381,6 +381,60 @@ var getCurrentBlock = function (callback) {
 	});
 };
 
+/**
+ * @api {get} /wow/?a=get_current_price Get Current Price
+ * @apiVersion 1.0.0
+ * @apiName Get Current Price
+ * @apiGroup DogeCoin
+ * @apiPermission public
+ *
+ * @apiDescription Returns the current price in USD or BTC. This doesn't require an API key.
+ *
+ * @apiParam {String} a The action to perform
+ * @apiParam {String} convert_to To convert to USD or BTC (Defaults to USD)
+ * @apiParam {Int} amount_doge The amount of Doge to convert (Defaults to 1 Doge.)
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/?a=get_current_price&convert_to=BTC&amount_doge=1000'
+ *
+ * @apiSuccess {int} currentPrice The current price of BTC or USD for the Doge amount given.
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *     0.00206000
+ *
+ */
+var getCurrentPrice = function (conversionType, amount, callback) {
+	var apiQuery = 'wow/?a=get_current_price';
+	var args = [];
+	for(var argCounter = 0; argCounter < arguments.length; argCounter++) {
+		args.push(arguments[argCounter]);
+	}
+	callback = args.pop();
+	if(args.length > 0 && typeof(args[0]) === 'number') {
+		amount = args.shift();
+		apiQuery += '&amount=' + amount;
+	}
+	if(args.length > 0 && typeof(args[0]) === 'string') {
+		conversionType = args.shift();
+		apiQuery += '&convert_to=' + conversionType.toUpperCase();
+	}
+	if(args.length > 0) {
+		amount = args.shift();
+		apiQuery += '&amount=' + amount;
+	}
+	request(ENDPOINT + apiQuery, function (error, response, body) {
+		if(error) return callback(error);
+		if(response.statusCode === 200) {
+			return callback(null, body);
+		} else {
+			return callback(body);
+		}
+	});
+};
+
+
+
 //Verifies that the incoming address is legitimate
 var _verifyAddress = function (dogeAddr, callback) {
 	if(dogeAddr.length !== 34 || dogeAddr[0] !== 'D') {
@@ -429,5 +483,6 @@ module.exports = {
 	getAddressReceived: getAddressReceived,
 	getAddressByLabel: getAddressByLabel,
 	getDifficulty: getDifficulty,
-	getCurrentBlock: getCurrentBlock
+	getCurrentBlock: getCurrentBlock,
+	getCurrentPrice: getCurrentPrice
 };

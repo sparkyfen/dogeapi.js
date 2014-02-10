@@ -59,3 +59,8 @@ dogeAPI.getCurrentBlock(function (error, currentBlock) {
 	}
 	console.log(currentBlock);
 });
+dogeAPI.getCurrentPrice('BTC', 1000, function (error, price) {
+	if(error) {
+		// Handle error
+	}
+})
