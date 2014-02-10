@@ -403,6 +403,15 @@ var getCurrentBlock = function (callback) {
  *     HTTP/1.1 200 OK
  *     0.00206000
  *
+ * @apiError (Success 200) InvalidConversion The conversion unit was not USD or BTC
+ * @apiError (Success 200) InvalidAmount The amount was not a valid amount of Doge. (Probably not a number)
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 200 OK
+ *     "invalid conversion unit"
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 200 OK
+ *     "Invalid Amount"
  */
 var getCurrentPrice = function (conversionType, amount, callback) {
 	var apiQuery = 'wow/?a=get_current_price';
