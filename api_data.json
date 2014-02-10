@@ -569,7 +569,7 @@
           },
           {
             "group": "Parameter",
-            "type": "Int",
+            "type": "int",
             "field": "amount_doge",
             "optional": false,
             "description": "The amount of Doge to convert (Defaults to 1 Doge.)"
@@ -599,6 +599,34 @@
         {
           "title": "Success-Response (example):",
           "content": "   HTTP/1.1 200 OK\n   0.00206000\n"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "field": "InvalidConversion",
+            "optional": false,
+            "description": "The conversion unit was not USD or BTC"
+          },
+          {
+            "group": "Success 200",
+            "field": "InvalidAmount",
+            "optional": false,
+            "description": "The amount was not a valid amount of Doge. (Probably not a number)"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response (example):",
+          "content": "   HTTP/1.1 200 OK\n   \"invalid conversion unit\"\n"
+        },
+        {
+          "title": "Error-Response (example):",
+          "content": "   HTTP/1.1 200 OK\n   \"Invalid Amount\"\n"
         }
       ]
     },
