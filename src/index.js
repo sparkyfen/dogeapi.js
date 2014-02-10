@@ -88,13 +88,13 @@ var getBalance = function (callback) {
  *     HTTP/1.1 200 OK
  *     "Invalid API Key"
  *
- * @apiError (200) NotEnoughDoge The user does not have enough Doge in their account.
+ * @apiError (Success 200) NotEnoughDoge The user does not have enough Doge in their account.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Not enough Doge"
  *
- * @apiError (200) BadQuery The query was invalid, probably indicated a missing parameter
+ * @apiError (Success 200) BadQuery The query was invalid, probably indicated a missing parameter
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
@@ -404,14 +404,17 @@ var getCurrentBlock = function (callback) {
  *     0.00206000
  *
  * @apiError (Success 200) InvalidConversion The conversion unit was not USD or BTC
- * @apiError (Success 200) InvalidAmount The amount was not a valid amount of Doge. (Probably not a number)
+ *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "invalid conversion unit"
  *
+ * @apiError (Success 200) InvalidAmount The amount was not a valid amount of Doge. (Probably not a number)
+ *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Invalid Amount"
+ *
  */
 var getCurrentPrice = function (conversionType, amount, callback) {
 	var apiQuery = 'wow/?a=get_current_price';
