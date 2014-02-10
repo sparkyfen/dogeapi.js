@@ -706,26 +706,24 @@
     },
     "error": {
       "fields": {
-        "200": [
-          {
-            "group": "200",
-            "field": "NotEnoughDoge",
-            "optional": false,
-            "description": "The user does not have enough Doge in their account."
-          },
-          {
-            "group": "200",
-            "field": "BadQuery",
-            "optional": false,
-            "description": "The query was invalid, probably indicated a missing parameter"
-          }
-        ],
         "Success 200": [
           {
             "group": "Success 200",
             "field": "InvalidAPIKey",
             "optional": false,
             "description": "The user's API key is either missing or invalid."
+          },
+          {
+            "group": "Success 200",
+            "field": "NotEnoughDoge",
+            "optional": false,
+            "description": "The user does not have enough Doge in their account."
+          },
+          {
+            "group": "Success 200",
+            "field": "BadQuery",
+            "optional": false,
+            "description": "The query was invalid, probably indicated a missing parameter"
           }
         ]
       },
