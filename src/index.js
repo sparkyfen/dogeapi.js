@@ -392,7 +392,7 @@ var getCurrentBlock = function (callback) {
  *
  * @apiParam {String} a The action to perform
  * @apiParam {String} convert_to To convert to USD or BTC (Defaults to USD)
- * @apiParam {Int} amount_doge The amount of Doge to convert (Defaults to 1 Doge.)
+ * @apiParam {int} amount_doge The amount of Doge to convert (Defaults to 1 Doge.)
  *
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/?a=get_current_price&convert_to=BTC&amount_doge=1000'
