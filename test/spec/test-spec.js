@@ -44,4 +44,14 @@ describe('Doge API', function () {
 			expect(currentPrice).not.toBe(null);
 		});
 	});
+	it('returns the hashrate of the network', function() {
+		dogeAPI.getNetworkHashRate(function (error, hashRate) {
+			expect(hashrate).not.toBe(null);
+		});
+	});
+	it('returns info about pricing, block count, difficulty, price changes, hashrate, and API version', function () {
+		dogeAPI.getInfo(function (error, info) {
+			expect(info).not.toBe(null);
+		});
+	});
 });
