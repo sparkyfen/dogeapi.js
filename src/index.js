@@ -53,17 +53,17 @@ var ENDPOINT = settings.endpoint;
  *
  */
 var getBalance = function (callback) {
-	_checkAPIKey(function (error) {
-		if(error) return callback(error);
-		request(ENDPOINT + 'wow/v2/?api_key=' + APIKEY + '&a=get_balance', function (error, response, body) {
-			if(error) return callback(error);
-			if(response.statusCode === 200) {
-				return callback(null, body);
-			} else {
-				return callback(body);
-			}
-		});
-	});
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + 'wow/v2/?api_key=' + APIKEY + '&a=get_balance', function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -114,7 +114,7 @@ var getBalance = function (callback) {
  *     HTTP/1.1 400 Bad Request
  *     {"error":"amount_doge required"}
  *
- * @apiError (Bad Request 400) AtLeast5Doge	The amount of doge withdrawing is lower than allowed amount.
+ * @apiError (Bad Request 400) AtLeast5Doge The amount of doge withdrawing is lower than allowed amount.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
@@ -129,20 +129,20 @@ var getBalance = function (callback) {
  *
  */
 var withdraw = function (amount, paymentAddress, pin, callback) {
-	_checkAPIKey(function (error) {
-		if(error) return callback(error);
-		if(!amount) return callback('Missing amount to withdraw.');
-		if(!paymentAddress) return callback('Missing payment address to send to.');
-		if(!pin) return callback('Missing account PIN.');
-		request(ENDPOINT + 'wow/v2/?api_key=' + APIKEY + '&a=withdraw&amount_doge=' + amount + '&pin=' + pin + '&payment_address=' + paymentAddress, function (error, response, body) {
-			if(error) return callback(error);
-			if(response.statusCode === 200) {
-				return callback(null, body);
-			} else {
-				return callback(body);
-			}
-		});
-	});
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    if(!amount) return callback('Missing amount to withdraw.');
+    if(!paymentAddress) return callback('Missing payment address to send to.');
+    if(!pin) return callback('Missing account PIN.');
+    request(ENDPOINT + 'wow/v2/?api_key=' + APIKEY + '&a=withdraw&amount_doge=' + amount + '&pin=' + pin + '&payment_address=' + paymentAddress, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -187,25 +187,25 @@ var withdraw = function (amount, paymentAddress, pin, callback) {
  *
  */
 var getNewAddress = function (addressLabel, callback) {
-	_checkAPIKey(function (error) {
-		if(error) return callback(error);
-		var apiQuery = 'wow/v2/?api_key=' + APIKEY + '&a=get_new_address'
-		if(addressLabel) {
-			if(validator.isAlphanumeric(addressLabel)) {
-				apiQuery += '&address_label=' + addressLabel;
-			} else {
-				return callback('Invalid address label.');
-			}
-		}
-		request(ENDPOINT + apiQuery, function (error, response, body) {
-			if(error) return callback(error);
-			if(response.statusCode === 200) {
-				return callback(null, body);
-			} else {
-				return callback(body);
-			}
-		});
-	});
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    var apiQuery = 'wow/v2/?api_key=' + APIKEY + '&a=get_new_address'
+    if(addressLabel) {
+      if(validator.isAlphanumeric(addressLabel)) {
+        apiQuery += '&address_label=' + addressLabel;
+      } else {
+        return callback('Invalid address label.');
+      }
+    }
+    request(ENDPOINT + apiQuery, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -249,17 +249,17 @@ var getNewAddress = function (addressLabel, callback) {
  *
  */
 var getAddresses = function (callback) {
-	_checkAPIKey(function (error) {
-		if(error) return callback(error);
-		request(ENDPOINT + 'wow/v2/?api_key=' + APIKEY + '&a=get_my_addresses', function (error, response, body) {
-			if(error) return callback(error);
-			if(response.statusCode === 200) {
-				return callback(null, body);
-			} else {
-				return callback(body);
-			}
-		});
-	});
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + 'wow/v2/?api_key=' + APIKEY + '&a=get_my_addresses', function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -314,30 +314,30 @@ var getAddresses = function (callback) {
  *
  */
 var getAddressReceived = function (paymentAddress, addressLabel, callback) {
-	_checkAPIKey(function (error) {
-		if(error) return callback(error);
-		if(!paymentAddress) return callback('Missing payment address or address label.');
-		// Verify we have a real address
-		_verifyAddress(paymentAddress, function (error) {
-			if(error) return callback(error);
-			// TODO Maybe switch this to arguments check
-			// If we did not get an address label, then we only have payment address and callback
-			addressLabel = typeof(addressLabel) === 'undefined' ? null : addressLabel;
-			if(!addressLabel) {
-				apiQuery = 'wow/v2/?api_key=' + APIKEY + '&a=get_address_received&payment_address=' + paymentAddress;
-			} else {
-				apiQuery = 'wow/v2/?api_key=' + APIKEY + '&a=get_address_received&address_label=' + addressLabel
-			}
-			request(ENDPOINT + apiQuery, function (error, response, body) {
-				if(error) return callback(error);
-				if(response.statusCode === 200) {
-					return callback(null, body);
-				} else {
-					return callback(body);
-				}
-			});
-		});
-	});
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    if(!paymentAddress) return callback('Missing payment address or address label.');
+    // Verify we have a real address
+    _verifyAddress(paymentAddress, function (error) {
+      if(error) return callback(error);
+      // TODO Maybe switch this to arguments check
+      // If we did not get an address label, then we only have payment address and callback
+      addressLabel = typeof(addressLabel) === 'undefined' ? null : addressLabel;
+      if(!addressLabel) {
+        apiQuery = 'wow/v2/?api_key=' + APIKEY + '&a=get_address_received&payment_address=' + paymentAddress;
+      } else {
+        apiQuery = 'wow/v2/?api_key=' + APIKEY + '&a=get_address_received&address_label=' + addressLabel
+      }
+      request(ENDPOINT + apiQuery, function (error, response, body) {
+        if(error) return callback(error);
+        if(response.statusCode === 200) {
+          return callback(null, body);
+        } else {
+          return callback(body);
+        }
+      });
+    });
+  });
 };
 
 /**
@@ -388,18 +388,18 @@ var getAddressReceived = function (paymentAddress, addressLabel, callback) {
  *
  */
 var getAddressByLabel = function (addressLabel, callback) {
-	_checkAPIKey(function (error) {
-		if(error) return callback(error);
-		if(!addressLabel) return callback('Missing address label.');
-		request(ENDPOINT + 'wow/v2/?api_key='+APIKEY+'&a=get_address_by_label&address_label='+addressLabel, function (error, response, body) {
-			if(error) return callback(error);
-			if(response.statusCode === 200) {
-				return callback(null, body);
-			} else {
-				return callback(body);
-			}
-		});
-	});
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    if(!addressLabel) return callback('Missing address label.');
+    request(ENDPOINT + 'wow/v2/?api_key='+APIKEY+'&a=get_address_by_label&address_label='+addressLabel, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -430,14 +430,14 @@ var getAddressByLabel = function (addressLabel, callback) {
  *
  */
 var getDifficulty = function (callback) {
-	request(ENDPOINT + 'wow/v2/?a=get_difficulty', function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  request(ENDPOINT + 'wow/v2/?a=get_difficulty', function (error, response, body) {
+    if(error) return callback(error);
+    if(response.statusCode === 200) {
+      return callback(null, body);
+    } else {
+      return callback(body);
+    }
+  });
 };
 
 /**
@@ -468,14 +468,14 @@ var getDifficulty = function (callback) {
  *
  */
 var getCurrentBlock = function (callback) {
-	request(ENDPOINT + 'wow/v2/?a=get_current_block', function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  request(ENDPOINT + 'wow/v2/?a=get_current_block', function (error, response, body) {
+    if(error) return callback(error);
+    if(response.statusCode === 200) {
+      return callback(null, body);
+    } else {
+      return callback(body);
+    }
+  });
 };
 
 /**
@@ -520,32 +520,35 @@ var getCurrentBlock = function (callback) {
  *
  */
 var getCurrentPrice = function (conversionType, amount, callback) {
-	var apiQuery = 'wow/v2/?a=get_current_price';
-	var args = [];
-	for(var argCounter = 0; argCounter < arguments.length; argCounter++) {
-		args.push(arguments[argCounter]);
-	}
-	callback = args.pop();
-	if(args.length > 0 && !isNaN(parseInt(args[0], 10)) === 'number') {
-		amount = args.shift();
-		apiQuery += '&amount=' + amount;
-	}
-	if(args.length > 0 && typeof(args[0]) === 'string') {
-		conversionType = args.shift();
-		apiQuery += '&convert_to=' + conversionType.toUpperCase();
-	}
-	if(args.length > 0) {
-		amount = args.shift();
-		apiQuery += '&amount=' + amount;
-	}
-	request(ENDPOINT + apiQuery, function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  var apiQuery = 'wow/v2/?a=get_current_price';
+  var args = [];
+  for(var argCounter = 0; argCounter < arguments.length; argCounter++) {
+    args.push(arguments[argCounter]);
+  }
+  callback = args.pop();
+  if(args.length > 0 && !isNaN(parseInt(args[0], 10)) === 'number') {
+    amount = args.shift();
+    apiQuery += '&amount=' + amount;
+  }
+  if(args.length > 0 && typeof(args[0]) === 'string') {
+    conversionType = args.shift();
+    apiQuery += '&convert_to=' + conversionType.toUpperCase();
+  }
+  if(args.length > 0) {
+    amount = args.shift();
+    apiQuery += '&amount=' + amount;
+  }
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + apiQuery, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 
@@ -597,16 +600,19 @@ var getCurrentPrice = function (conversionType, amount, callback) {
  *
  */
 var createUser = function(userID, callback) {
-	if(!userID) return callback('Missing user id.');
-	if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
-	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=create_user&user_id=' + userID, function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  if(!userID) return callback('Missing user id.');
+  if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=create_user&user_id=' + userID, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -657,16 +663,19 @@ var createUser = function(userID, callback) {
  *
  */
 var getUserAddress = function(userID, callback) {
-	if(!userID) return callback('Missing user id.');
-	if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
-	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_user_address&user_id=' + userID, function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  if(!userID) return callback('Missing user id.');
+  if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_user_address&user_id=' + userID, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -717,16 +726,19 @@ var getUserAddress = function(userID, callback) {
  *
  */
 var getUserBalance = function(userID, callback) {
-	if(!userID) return callback('Missing user id.');
-	if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
-	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_user_balance&user_id=' + userID, function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  if(!userID) return callback('Missing user id.');
+  if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_user_balance&user_id=' + userID, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -778,7 +790,7 @@ var getUserBalance = function(userID, callback) {
  *     HTTP/1.1 400 Bad Request
  *     {"error":"amount_doge required"}
  *
- * @apiError (Bad Request 400) AtLeast5Doge	The amount of doge withdrawing is lower than allowed amount.
+ * @apiError (Bad Request 400) AtLeast5Doge The amount of doge withdrawing is lower than allowed amount.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
@@ -793,19 +805,22 @@ var getUserBalance = function(userID, callback) {
  *
  */
 var withdrawFromUser = function(userID, paymentAddress, amount, pin, callback) {
-	if(!userID) return callback('Missing user id.');
-	if(!paymentAddress) return callback('Missing payment address.');
-	if(!amount) return callback('Missing amount to withdraw.');
-	if(!pin) return callback('Missing account PIN.');
-	if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
-	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=withdraw_from_user&user_id=' + userID + '&pin=' + pin + '&amount_doge=' + amount + '&payment_address=' + paymentAddress, function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  if(!userID) return callback('Missing user id.');
+  if(!paymentAddress) return callback('Missing payment address.');
+  if(!amount) return callback('Missing amount to withdraw.');
+  if(!pin) return callback('Missing account PIN.');
+  if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=withdraw_from_user&user_id=' + userID + '&pin=' + pin + '&amount_doge=' + amount + '&payment_address=' + paymentAddress, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -856,7 +871,7 @@ var withdrawFromUser = function(userID, paymentAddress, amount, pin, callback) {
  *     HTTP/1.1 400 Bad Request
  *     {"error":"amount_doge required"}
  *
- * @apiError (Bad Request 400) AtLeast5Doge	The amount of doge withdrawing is lower than allowed amount.
+ * @apiError (Bad Request 400) AtLeast5Doge The amount of doge withdrawing is lower than allowed amount.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
@@ -871,17 +886,20 @@ var withdrawFromUser = function(userID, paymentAddress, amount, pin, callback) {
  *
  */
 var moveToUser = function(toUserID, fromUserID, amount, callback) {
-	if(!toUserID) return callback('Missing user id to send to.');
-	if(!fromUserID) return callback('Missing user id to send from.');
-	if(!amount) return callback('Missing amount to move.');
-	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=move_to_user&to_user_id=' + toUserID + '&from_user_id=' + fromUserID + '&amount_doge=' + amount, function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  if(!toUserID) return callback('Missing user id to send to.');
+  if(!fromUserID) return callback('Missing user id to send from.');
+  if(!amount) return callback('Missing amount to move.');
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=move_to_user&to_user_id=' + toUserID + '&from_user_id=' + fromUserID + '&amount_doge=' + amount, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -928,14 +946,17 @@ var moveToUser = function(toUserID, fromUserID, amount, callback) {
  *
  */
 var getUsers = function(callback) {
-	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_users', function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_users', function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -1013,31 +1034,78 @@ var getUsers = function(callback) {
  *     {"error":"v2 is not yet live"}
  *
  */
-// TODO this one needs more investigating. Can we only pass num? Or can we pass user id, payment address, and/or label as well.
-var getTransactions = function(number, type, callback) {
-	if(!number) return callback('Missing transaction number to match.');
-	if(!type) return callback('Missing type of transaction to check.');
-	if(typeof(type) !== 'string') return callback('Invalid type.');
-	var isTypeValue = false;
-	switch(type.toLowerCase()) {
-		case 'receive';
-		case 'send':
-		case 'move':
-		case 'fee':
-			isTypeValue = true;
-		break;
-		default:
-		break;
-	}
-	if(!isTypeValue) return callback('Invalid type.');
-	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_transactions&num=' + number + '&type=' + type, function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+var getTransactions = function(number, type, option, callback) {
+  // Get arguments
+  var args = [];
+  for(var argCounter = 0; argCounter < arguments.length; argCounter++) {
+    args.push(arguments[argCounter]);
+  }
+  // Get the number
+  number = args.shift();
+  // Get the type
+  type = args.shift();
+  if(!number) return callback('Missing transaction number to match.');
+  // Check type
+  if(!type) return callback('Missing type of transaction to check.');
+  if(typeof(type) !== 'string') return callback('Invalid type.');
+  var isTypeValid = false;
+  switch(type.toLowerCase()) {
+    case 'receive':
+    case 'send':
+    case 'move':
+    case 'fee':
+      isTypeValid = true;
+    break;
+    default:
+    break;
+  }
+  if(!isTypeValid) return callback('Invalid type.');
+
+  // Get callback function
+  callback = args.pop();
+
+  // Find out if we have options or not
+  var hasOption = false;
+  if(args.length > 0 && typeof(args[0]) === 'object') {
+    option = args.shift();
+    hasOption = true;
+  } else {
+    option = null;
+  }
+  if(typeof(option) !== 'object') return callback('Invalid option, please use the form {type: "label", value: "myLabel"}.');
+
+  var apiQuery = '/wow/v2/?api_key=' + APIKEY + '&a=get_transactions&num=' + number + '&type=' + type;
+  if(hasOption) {
+    var isOptionValid = false;
+    switch(option.type.toLowerCase()) {
+      case 'label':
+        apiQuery += '&label=' + option.value;
+        isOptionValid = true;
+      break;
+      case 'paymentaddress':
+        apiQuery += '&payment_address=' + option.value;
+        isOptionValid = true;
+      break;
+      case 'userid':
+        apiQuery += '&user_id=' + option.value;
+        isOptionValid = true;
+      break;
+      default:
+      break;
+    }
+    if(!isOptionValid) return callback('Invalid option type.');
+  }
+  _checkAPIKey(function (error) {
+    if(error) return callback(error);
+    request(ENDPOINT + apiQuery, function (error, response, body) {
+      if(error) return callback(error);
+      if(response.statusCode === 200) {
+        return callback(null, body);
+      } else {
+        return callback(body);
+      }
+    });
+  });
 };
 
 /**
@@ -1068,14 +1136,14 @@ var getTransactions = function(number, type, callback) {
  *
  */
 var getNetworkHashRate = function(callback) {
-	request(ENDPOINT + '/wow/v2/?a=get_network_hashrate', function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  request(ENDPOINT + '/wow/v2/?a=get_network_hashrate', function (error, response, body) {
+    if(error) return callback(error);
+    if(response.statusCode === 200) {
+      return callback(null, body);
+    } else {
+      return callback(body);
+    }
+  });
 };
 
 /**
@@ -1114,73 +1182,73 @@ var getNetworkHashRate = function(callback) {
  *
  */
 var getInfo = function(callback) {
-	request(ENDPOINT + '/wow/v2/?a=get_info', function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			return callback(null, body);
-		} else {
-			return callback(body);
-		}
-	});
+  request(ENDPOINT + '/wow/v2/?a=get_info', function (error, response, body) {
+    if(error) return callback(error);
+    if(response.statusCode === 200) {
+      return callback(null, body);
+    } else {
+      return callback(body);
+    }
+  });
 };
 
 //Verifies that the incoming address is legitimate
 var _verifyAddress = function (dogeAddr, callback) {
-	if(dogeAddr.length !== 34 || dogeAddr[0] !== 'D') {
-		return callback('Invalid doge address.');
-	}
-	_dogeChainVerify(dogeAddr, function (error) {
-		if(error && error.code === 'ETIMEOUT') {
-			return callback(); // We could not query dogechain so we will allow DogeAPI to deal with more verification
-		} else if(error) {
-			return callback(error);
-		}
-		return callback();
-	});
+  if(dogeAddr.length !== 34 || dogeAddr[0] !== 'D') {
+    return callback('Invalid doge address.');
+  }
+  _dogeChainVerify(dogeAddr, function (error) {
+    if(error && error.code === 'ETIMEOUT') {
+      return callback(); // We could not query dogechain so we will allow DogeAPI to deal with more verification
+    } else if(error) {
+      return callback(error);
+    }
+    return callback();
+  });
 };
 
 // Queries DogeChain to verify the legitimacy of an address
 var _dogeChainVerify = function(dogeAddr, callback) {
-	request('http://dogechain.info/chain/Dogecoin/q/checkaddress/'+dogeAddr, function (error, response, body) {
-		if(error) return callback(error);
-		if(response.statusCode === 200) {
-			switch(body) {
-				case 'X5':
-				case 'SZ':
-				case 'CK':
-				return callback('Invalid doge address.');
-				default:
-				return callback();
-			}
-		}
-	});
+  request('http://dogechain.info/chain/Dogecoin/q/checkaddress/'+dogeAddr, function (error, response, body) {
+    if(error) return callback(error);
+    if(response.statusCode === 200) {
+      switch(body) {
+        case 'X5':
+        case 'SZ':
+        case 'CK':
+        return callback('Invalid doge address.');
+        default:
+        return callback();
+      }
+    }
+  });
 };
 
 // Check to make sure we have an API key
 var _checkAPIKey = function (callback) {
-	if(APIKEY === undefined || APIKEY === '' || APIKEY === null) {
-		return callback('Missing API key.');
-	}
-	return callback();
+  if(APIKEY === undefined || APIKEY === '' || APIKEY === null) {
+    return callback('Missing API key.');
+  }
+  return callback();
 };
 
 module.exports = {
-	getBalance: getBalance,
-	withdraw: withdraw,
-	getNewAddress: getNewAddress,
-	getAddresses: getAddresses,
-	getAddressReceived: getAddressReceived,
-	getAddressByLabel: getAddressByLabel,
-	getDifficulty: getDifficulty,
-	getCurrentBlock: getCurrentBlock,
-	getCurrentPrice: getCurrentPrice,
-	createUser: createUser,
-	getUserAddress: getUserAddress,
-	getUserBalance: getUserBalance,
-	withdrawFromUser: withdrawFromUser,
-	moveToUser: moveToUser,
-	getUsers: getUsers,
-	getTransactions: getTransactions,
-	getNetworkHashRate: getNetworkHashRate,
-	getInfo: getInfo
+  getBalance: getBalance,
+  withdraw: withdraw,
+  getNewAddress: getNewAddress,
+  getAddresses: getAddresses,
+  getAddressReceived: getAddressReceived,
+  getAddressByLabel: getAddressByLabel,
+  getDifficulty: getDifficulty,
+  getCurrentBlock: getCurrentBlock,
+  getCurrentPrice: getCurrentPrice,
+  createUser: createUser,
+  getUserAddress: getUserAddress,
+  getUserBalance: getUserBalance,
+  withdrawFromUser: withdrawFromUser,
+  moveToUser: moveToUser,
+  getUsers: getUsers,
+  getTransactions: getTransactions,
+  getNetworkHashRate: getNetworkHashRate,
+  getInfo: getInfo
 };

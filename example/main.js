@@ -1,4 +1,4 @@
-var dogeAPI = require('../../src/index.js');
+var dogeAPI = require('../src/index.js');
 
 // Get balance
 dogeAPI.getBalance(function (error, balance) {
@@ -64,59 +64,103 @@ dogeAPI.getCurrentPrice('BTC', 1000, function (error, price) {
 	if(error) {
 		// Handle error
 	}
+	console.log(price);
+});
+
+dogeAPI.getCurrentPrice('BTC', function (error, price) {
+	if(error) {
+		// Handle error
+	}
+	console.log(price);
+});
+
+dogeAPI.getCurrentPrice(1000, function (error, price) {
+	if(error) {
+		// Handle error
+	}
+	console.log(price);
 });
 
 dogeAPI.createUser(userid, function (error, paymentAddress) {
 	if(error) {
 		// Handle error
 	}
+	console.log(paymentAddress);
 });
 
 dogeAPI.getUserAddress(userid, function (error, address) {
 	if(error) {
 		// Handle error
 	}
+	console.log(address);
 });
 
-dogeAPI.getUserBalance(userid, function (error, address) {
+dogeAPI.getUserBalance(userid, function (error, balance) {
 	if(error) {
 		// Handle error
 	}
+	console.log(balance);
 });
 
 dogeAPI.withdrawFromUser(userid, paymentAddress, amount, pin, function (error, transactionid) {
 	if(error) {
 		// Handle error
 	}
+	console.log(transactionid);
 });
 
-// TODO, we don't know what type of response this is as of right now.
-dogeAPI.moveToUser(toUserId, fromUserId, amount, function (error, response) {
+dogeAPI.moveToUser(toUserId, fromUserId, amount, function (error, transactionid) {
 	if(error) {
 		// Handle error
 	}
+	console.log(transactionid);
 });
 
 dogeAPI.getUsers(function (error, users) {
 	if(error) {
 		// Handle error
 	}
+	console.log(users);
 });
 
 dogeAPI.getTransactions(number, type, function (error, transactions) {
 	if(error) {
 		// Handle error
 	}
+	console.log(transactions);
+});
+
+dogeAPI.getTransactions(number, type, {type: 'label', value: 'myLabel'}, function (error, transactions) {
+	if(error) {
+		// Handle error
+	}
+	console.log(transactions);
+});
+
+dogeAPI.getTransactions(number, type, {type: 'paymentaddress', value: 'DKobMeoZqAkmdQpZ7e24zoPtd8zLbPT6xx'}, function (error, transactions) {
+	if(error) {
+		// Handle error
+	}
+	console.log(transactions);
+});
+
+dogeAPI.getTransactions(number, type, {type: 'userid', value: 'myUserId'}, function (error, transactions) {
+	if(error) {
+		// Handle error
+	}
+	console.log(transactions);
 });
 
 dogeAPI.getNetworkHashRate(function (error, hashRate) {
 	if(error) {
 		// Handle error
 	}
+	console.log(hashRate);
 });
 
 dogeAPI.getInfo(function (error, info) {
 	if(error) {
 		// Handle error
 	}
+	console.log(info);
 });
