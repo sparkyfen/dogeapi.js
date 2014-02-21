@@ -88,7 +88,7 @@ var getBalance = function (callback) {
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     {"data":{"transaction": "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"}}
+ *     {"data":{"txid": "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"}}
  *
  * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
  *
@@ -592,6 +592,12 @@ var getCurrentPrice = function (conversionType, amount, callback) {
  *     HTTP/1.1 400 Bad Request
  *     {"error":"user_id Required"}
  *
+ * @apiError (Bad Request 400) UserExists The user id already exists.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"User Already Exists"}
+ *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
@@ -764,7 +770,7 @@ var getUserBalance = function(userID, callback) {
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     {"data":{"transaction": "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"}}
+ *     {"data":{"txid": "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"}}
  *
  * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
  *
@@ -841,11 +847,11 @@ var withdrawFromUser = function(userID, paymentAddress, amount, pin, callback) {
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=move_to_user&to_user_id={TO_USER_ID}&from_user_id={FROM_USER_ID}&amount_doge={AMOUNT_DOGE}'
  *
- * @apiSuccess {String} transaction The unique transaction id on the market
+ * @apiSuccess {Double} fee The fee for the transaction
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     {"data":{"transaction": "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"}}
+ *     {"data":{"success":{"fee":0.05}}}
  *
  * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
  *
