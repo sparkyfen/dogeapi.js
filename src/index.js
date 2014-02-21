@@ -1,12 +1,3 @@
-//TODO Add 'Unauthorized Shibe' as an error response when querying v2 API on a v1 endpoint. (/wow/?api_key = v1, /wow/v2/?api_key = v2)
-
-/**
- * @apiDefinePermission public This information is publicly accessible.
- * No authentication is required.
- *
- * @apiVersion 1.0.0
- */
-
 /**
  * @apiDefinePermission public This information is publicly accessible.
  * No authentication is required.
@@ -14,12 +5,6 @@
  * @apiVersion 2.0.0
  */
 
-/**
- * @apiDefinePermission user Authenticated access is required.
- * An API key is required.
- *
- * @apiVersion 1.0.0
- */
 /**
  * @apiDefinePermission user Authenticated access is required.
  * An API key is required.
@@ -33,34 +18,6 @@ var request = require('request');
 var validator = require('validator');
 var ENDPOINT = settings.endpoint;
 
-/**
- * @api {get} /wow/?api_key={API_KEY}&a=get_balance Get Balance
- * @apiVersion 1.0.0
- * @apiName GetBalance
- * @apiGroup DogeCoin
- * @apiPermission user
- *
- * @apiDescription Returns the DOGE balance of your entire account to 8 decimal places.
- *
- * @apiParam {String} api_key The user's api key
- * @apiParam {String} a The action to perform
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_balance'
- *
- * @apiSuccess {int} amount The amount in the entire account
- *
- * @apiSuccessExample Success-Response (example):
- *     HTTP/1.1 200 OK
- *     18.95245109
- *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
- *
- */
 /**
  * @api {get} /wow/v2/?api_key={API_KEY}&a=get_balance Get Balance
  * @apiVersion 2.0.0
@@ -76,23 +33,23 @@ var ENDPOINT = settings.endpoint;
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=get_balance'
  *
- * @apiSuccess {int} amount The amount in the entire account
+ * @apiSuccess {String} balance The amount in the entire account.
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     18.95245109
+ *     {"data":{"balance":"18.95245109"}}
  *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
  *
  * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
  *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
- *     "{error: 'v2 is not yet live'}"
+ *     {"error":"v2 is not yet live"}
  *
  */
 var getBalance = function (callback) {
@@ -110,49 +67,7 @@ var getBalance = function (callback) {
 };
 
 /**
- * @api {get} /wow/?api_key={API_KEY}&a=withdraw&amount={AMOUNT}&payment_address={PAYMENT_ADDRESS} Withdraw
- * @apiVersion 1.0.0
- * @apiName Withdraw
- * @apiGroup DogeCoin
- * @apiPermission user
- *
- * @apiDescription Withdraws {AMOUNT} doge to a {PAYMENT_ADDRESS} you specify.
- *
- * @apiParam {String} api_key The user's api key
- * @apiParam {String} a The action to perform
- * @apiParam {int} amount The amount to withdraw
- * @apiParam {String} payment_address The account to withdraw to
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=withdraw&amount={AMOUNT}&payment_address={PAYMENT_ADDRESS}'
- *
- * @apiSuccess {int} transaction The unique transaction id on the market
- *
- * @apiSuccessExample Success-Response (example):
- *     HTTP/1.1 200 OK
- *     "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"
- *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
- *
- * @apiError (Success 200) NotEnoughDoge The user does not have enough Doge in their account.
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Not enough Doge"
- *
- * @apiError (Success 200) BadQuery The query was invalid, probably indicated a missing parameter
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Bad Query"
- *
- */
-/**
- * @api {get} /wow/v2?api_key={API_KEY}&a=withdraw&amount={AMOUNT}&pin={PIN}&payment_address={PAYMENT_ADDRESS} Withdraw
+ * @api {get} /wow/v2?api_key={API_KEY}&a=withdraw&amount_doge={AMOUNT}&pin={PIN}&payment_address={PAYMENT_ADDRESS} Withdraw
  * @apiVersion 2.0.0
  * @apiName Withdraw
  * @apiGroup DogeCoin
@@ -162,42 +77,55 @@ var getBalance = function (callback) {
  *
  * @apiParam {String} api_key The user's api key
  * @apiParam {String} a The action to perform
- * @apiParam {int} amount The amount to withdraw
+ * @apiParam {int} amount_doge The amount to withdraw
  * @apiParam {int} pin Your account pin number
  * @apiParam {String} payment_address The account to withdraw to
  *
  * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=withdraw&amount={AMOUNT}&pin={PIN}&payment_address={PAYMENT_ADDRESS}'
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=withdraw&amount_doge={AMOUNT}&pin={PIN}&payment_address={PAYMENT_ADDRESS}'
  *
- * @apiSuccess {int} transaction The unique transaction id on the market
+ * @apiSuccess {String} transaction The unique transaction id on the market
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"
+ *     {"data":{"transaction": "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"}}
  *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
- *
- * @apiError (Success 200) NotEnoughDoge The user does not have enough Doge in their account.
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
  *
  * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Not enough Doge"
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
  *
- * @apiError (Success 200) BadQuery The query was invalid, probably indicated a missing parameter
+ * @apiError (Unauthorized 401) UnauthorizedShibe The user's pin was invalid
  *
  * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Bad Query"
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
+ *
+ * @apiError (Bad Request 400) NotEnoughDoge The user does not have enough Doge in their account.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"Not Enough Doge"}
+ *
+ * @apiError (Bad Request 400) AmountDogeRequired The amount of doge is missing from the request.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"amount_doge required"}
+ *
+ * @apiError (Bad Request 400) AtLeast5Doge	The amount of doge withdrawing is lower than allowed amount.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"Must Withdraw At Least 5 Doge"}
+ *
  *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
- *     "{error: 'v2 is not yet live'}"
+ *     {"error":"v2 is not yet live"}
  *
  */
 var withdraw = function (amount, paymentAddress, pin, callback) {
@@ -206,7 +134,7 @@ var withdraw = function (amount, paymentAddress, pin, callback) {
 		if(!amount) return callback('Missing amount to withdraw.');
 		if(!paymentAddress) return callback('Missing payment address to send to.');
 		if(!pin) return callback('Missing account PIN.');
-		request(ENDPOINT + 'wow/v2/?api_key=' + APIKEY + '&a=withdraw&amount=' + amount + '&pin=' + pin + '&payment_address=' + paymentAddress, function (error, response, body) {
+		request(ENDPOINT + 'wow/v2/?api_key=' + APIKEY + '&a=withdraw&amount_doge=' + amount + '&pin=' + pin + '&payment_address=' + paymentAddress, function (error, response, body) {
 			if(error) return callback(error);
 			if(response.statusCode === 200) {
 				return callback(null, body);
@@ -217,35 +145,6 @@ var withdraw = function (amount, paymentAddress, pin, callback) {
 	});
 };
 
-/**
- * @api {get} /wow/?api_key={API_KEY}&a=get_new_address&address_label={ADDRESS_LABEL} Get New Address
- * @apiVersion 1.0.0
- * @apiName GetNewAddress
- * @apiGroup DogeCoin
- * @apiPermission user
- *
- * @apiDescription Returns a new payment address for your account. You can pass an optional alphanumeric {ADDRESS_LABEL} as a label for the address.
- *
- * @apiParam {String} api_key The user's api key
- * @apiParam {String} a The action to perform
- * @apiParam {String} address_label The optional, alphanumerical address label for the wallet
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_new_address&address_label={ADDRESS_LABEL}'
- *
- * @apiSuccess {String} address The address created
- *
- * @apiSuccessExample Success-Response (example):
- *     HTTP/1.1 200 OK
- *     "DQrzy6eccdPZ4n3Hi6oD6XZ4ndBFRX"
- *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
- *
- */
 /**
  * @api {get} /wow/v2/?api_key={API_KEY}&a=get_new_address&address_label={ADDRESS_LABEL} Get New Address
  * @apiVersion 2.0.0
@@ -266,19 +165,25 @@ var withdraw = function (amount, paymentAddress, pin, callback) {
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     "DQrzy6eccdPZ4n3Hi6oD6XZ4ndBFRX"
+ *     {"data":{"address":"DQrzy6eccdPZ4n3Hi6oD6XZ4ndBFRX"}}
  *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
  *
  * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The reqesting IP is not allowed to make API calls.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
  *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
- *     "{error: 'v2 is not yet live'}"
+ *     {"error":"v2 is not yet live"}
  *
  */
 var getNewAddress = function (addressLabel, callback) {
@@ -304,34 +209,6 @@ var getNewAddress = function (addressLabel, callback) {
 };
 
 /**
- * @api {get} /wow/?api_key={API_KEY}&a=get_my_addresses Get My Addresses
- * @apiVersion 1.0.0
- * @apiName GetMyAddresses
- * @apiGroup DogeCoin
- * @apiPermission user
- *
- * @apiDescription Returns all payment addresses/address_ids for your account.
- *
- * @apiParam {String} api_key The user's api key
- * @apiParam {String} a The action to perform
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_my_addresses'
- *
- * @apiSuccess {Array} addresses The list of addresses on your account.
- *
- * @apiSuccessExample Success-Response (example):
- *     HTTP/1.1 200 OK
- *     ["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX", "DQrzy5eci6oZ4n9HD6XFRX4dnBZ4ncdPdB"]
- *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
- *
- */
-/**
  * @api {get} /wow/v2/?api_key={API_KEY}&a=get_my_addresses Get My Addresses
  * @apiVersion 2.0.0
  * @apiName GetMyAddresses
@@ -350,19 +227,25 @@ var getNewAddress = function (addressLabel, callback) {
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     ["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX", "DQrzy5eci6oZ4n9HD6XFRX4dnBZ4ncdPdB"]
+ *     {"data":{"addresses":["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX", "DQrzy5eci6oZ4n9HD6XFRX4dnBZ4ncdPdB"]}}
  *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
  *
  * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The reqesting IP is not allowed to make API calls.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
  *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
- *     "{error: 'v2 is not yet live'}"
+ *     {"error":"v2 is not yet live"}
  *
  */
 var getAddresses = function (callback) {
@@ -379,39 +262,6 @@ var getAddresses = function (callback) {
 	});
 };
 
-/**
- * @api {get} /wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS} Get Address Received
- * @apiVersion 1.0.0
- * @apiName GetAddressReceived
- * @apiGroup DogeCoin
- * @apiPermission user
- *
- * @apiDescription Returns the current amount received to all addresses with {ADDRESS_LABEL} or {PAYMENT_ADDRESS}.
- *
- * @apiParam {String} api_key The user's api key
- * @apiParam {String} a The action to perform
- * @apiParam {String} payment_address The payment address to check the amount with
- * @apiParam {String} address_label The address label to check the amount with
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS}'
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_received&address_label={ADDRESS_LABEL}'
- *
- * @apiSuccess {Array} addresses The list of addresses on your account.
- *
- * @apiSuccessExample Success-Response (example):
- *     HTTP/1.1 200 OK
- *     ["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX", "DQrzy5eci6oZ4n9HD6XFRX4dnBZ4ncdPdB"]
- *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
- *
- */
 /**
  * @api {get} /wow/v2/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS} Get Address Received
  * @apiVersion 2.0.0
@@ -432,32 +282,45 @@ var getAddresses = function (callback) {
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=get_address_received&address_label={ADDRESS_LABEL}'
  *
- * @apiSuccess {Array} addresses The list of addresses on your account.
+ * @apiSuccess {Array} Received The amount of Doge received to the address(es) requested.
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     ["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX", "DQrzy5eci6oZ4n9HD6XFRX4dnBZ4ncdPdB"]
+ *     {"data":{"received":18.95245109}}
  *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
+ * @apiError (Bad Request 400) AddressPaymentRequireed Missing either address_label or payment_address
  *
  * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"address_label or payment_address Required"}
+ *
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The reqesting IP is not allowed to make API calls.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
  *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
- *     "{error: 'v2 is not yet live'}"
+ *     {"error":"v2 is not yet live"}
  *
  */
 var getAddressReceived = function (paymentAddress, addressLabel, callback) {
 	_checkAPIKey(function (error) {
 		if(error) return callback(error);
 		if(!paymentAddress) return callback('Missing payment address or address label.');
-		// Verify we have a read address
+		// Verify we have a real address
 		_verifyAddress(paymentAddress, function (error) {
 			if(error) return callback(error);
+			// TODO Maybe switch this to arguments check
 			// If we did not get an address label, then we only have payment address and callback
 			addressLabel = typeof(addressLabel) === 'undefined' ? null : addressLabel;
 			if(!addressLabel) {
@@ -476,39 +339,6 @@ var getAddressReceived = function (paymentAddress, addressLabel, callback) {
 		});
 	});
 };
-
-/**
- * @api {get} /wow/?api_key={API_KEY}&a=get_address_by_label&address_label={ADDRESS_LABEL} Get Address By Label
- * @apiVersion 1.0.0
- * @apiName GetAddressByLabel
- * @apiGroup DogeCoin
- * @apiPermission user
- *
- * @apiDescription Returns the payment address for the given {ADDRESS_LABEL}
- *
- * @apiParam {String} api_key The user's api key
- * @apiParam {String} a The action to perform
- * @apiParam {String} address_label The address label to check the amount with
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_by_label&address_label={ADDRESS_LABEL}'
- *
- * @apiSuccess {String} address The addresses on your account.
- *
- * @apiSuccessExample Success-Response (example):
- *     HTTP/1.1 200 OK
- *     "DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX"
- *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- * @apiError (Success 200) InvalidAddress The user's address key is invalid.
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     null
- */
 
 /**
  * @api {get} /wow/v2/?api_key={API_KEY}&a=get_address_by_label&address_label={ADDRESS_LABEL} Get Address By Label
@@ -530,23 +360,31 @@ var getAddressReceived = function (paymentAddress, addressLabel, callback) {
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     "DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX"
+ *     {"data":{"addresses":["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX"]}}
  *
- * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- * @apiError (Success 200) InvalidAddress The user's address key is invalid.
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid API Key"
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
  *
  * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     null
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Not Found 404) InvalidAddress The user's address key is invalid.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 404 Not Found
+ *     {"error":"No Addresses Found"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The reqesting IP is not allowed to make API calls.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
  *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
- *     "{error: 'v2 is not yet live'}"
+ *     {"error":"v2 is not yet live"}
  *
  */
 var getAddressByLabel = function (addressLabel, callback) {
@@ -565,28 +403,6 @@ var getAddressByLabel = function (addressLabel, callback) {
 };
 
 /**
- * @api {get} /wow/?a=get_difficulty Get Difficulty
- * @apiVersion 1.0.0
- * @apiName GetDifficulty
- * @apiGroup DogeCoin
- * @apiPermission public
- *
- * @apiDescription Returns the current difficulty. This doesn't require an API key.
- *
- * @apiParam {String} a The action to perform
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?a=get_difficulty'
- *
- * @apiSuccess {int} difficulty The current difficulty
- *
- * @apiSuccessExample Success-Response (example):
- *     HTTP/1.1 200 OK
- *     321.8045805
- *
- */
-
-/**
  * @api {get} /wow/v2/?a=get_difficulty Get Difficulty
  * @apiVersion 2.0.0
  * @apiName GetDifficulty
@@ -600,17 +416,17 @@ var getAddressByLabel = function (addressLabel, callback) {
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/v2/?a=get_difficulty'
  *
- * @apiSuccess {int} difficulty The current difficulty
+ * @apiSuccess {string} difficulty The current difficulty
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     321.8045805
+ *     {"data":{"difficulty":"1190.35"}}
  *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
- *     "{error: 'v2 is not yet live'}"
+ *     {"error":"v2 is not yet live"}
  *
  */
 var getDifficulty = function (callback) {
@@ -625,30 +441,9 @@ var getDifficulty = function (callback) {
 };
 
 /**
- * @api {get} /wow/?a=get_current_block Get Current Block
- * @apiVersion 1.0.0
- * @apiName Get Current Block
- * @apiGroup DogeCoin
- * @apiPermission public
- *
- * @apiDescription Returns the current block. This doesn't require an API key.
- *
- * @apiParam {String} a The action to perform
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?a=get_current_block'
- *
- * @apiSuccess {int} currentBlock The current block
- *
- * @apiSuccessExample Success-Response (example):
- *     HTTP/1.1 200 OK
- *     39405
- *
- */
-/**
  * @api {get} /wow/v2/?a=get_current_block Get Current Block
  * @apiVersion 2.0.0
- * @apiName Get Current Block
+ * @apiName GetCurrentBlock
  * @apiGroup DogeCoin
  * @apiPermission public
  *
@@ -659,17 +454,17 @@ var getDifficulty = function (callback) {
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/v2/?a=get_current_block'
  *
- * @apiSuccess {int} currentBlock The current block
+ * @apiSuccess {string} currentBlock The current block
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     39405
+ *     {"data":{"current_block":"110693"}}
  *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
- *     "{error: 'v2 is not yet live'}"
+ *     {"error":"v2 is not yet live"}
  *
  */
 var getCurrentBlock = function (callback) {
@@ -684,44 +479,9 @@ var getCurrentBlock = function (callback) {
 };
 
 /**
- * @api {get} /wow/?a=get_current_price Get Current Price
- * @apiVersion 1.0.0
- * @apiName Get Current Price
- * @apiGroup DogeCoin
- * @apiPermission public
- *
- * @apiDescription Returns the current price in USD or BTC. This doesn't require an API key.
- *
- * @apiParam {String} a The action to perform
- * @apiParam {String} convert_to To convert to USD or BTC (Defaults to USD)
- * @apiParam {int} amount_doge The amount of Doge to convert (Defaults to 1 Doge.)
- *
- * @apiExample CURL example:
- *      curl -X GET 'https://dogeapi.com/wow/?a=get_current_price&convert_to=BTC&amount_doge=1000'
- *
- * @apiSuccess {int} currentPrice The current price of BTC or USD for the Doge amount given.
- *
- * @apiSuccessExample Success-Response (example):
- *     HTTP/1.1 200 OK
- *     0.00206000
- *
- * @apiError (Success 200) InvalidConversion The conversion unit was not USD or BTC
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "invalid conversion unit"
- *
- * @apiError (Success 200) InvalidAmount The amount was not a valid amount of Doge. (Probably not a number)
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid Amount"
- *
- */
-/**
  * @api {get} /wow/v2/?a=get_current_price Get Current Price
  * @apiVersion 2.0.0
- * @apiName Get Current Price
+ * @apiName GetCurrentPrice
  * @apiGroup DogeCoin
  * @apiPermission public
  *
@@ -734,29 +494,29 @@ var getCurrentBlock = function (callback) {
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/v2/?a=get_current_price&convert_to=BTC&amount_doge=1000'
  *
- * @apiSuccess {int} currentPrice The current price of BTC or USD for the Doge amount given.
+ * @apiSuccess {int} amount The current price of BTC or USD for the Doge amount given.
  *
  * @apiSuccessExample Success-Response (example):
  *     HTTP/1.1 200 OK
- *     0.00206000
+ *     {"data":{"amount":0.00211}}
  *
- * @apiError (Success 200) InvalidConversion The conversion unit was not USD or BTC
- *
- * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "invalid conversion unit"
- *
- * @apiError (Success 200) InvalidAmount The amount was not a valid amount of Doge. (Probably not a number)
+ * @apiError (Bad Request 400) InvalidConversion The conversion unit was not USD or BTC
  *
  * @apiErrorExample Error-Response (example):
- *     HTTP/1.1 200 OK
- *     "Invalid Amount"
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"Invalid Conversion Unit"}
+ *
+ * @apiError (Bad Request 400) InvalidAmount The amount was not a valid amount of Doge. (Probably not a number)
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"Invalid Amount"}
  *
  * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
  *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 400 Bad Request
- *     "{error: 'v2 is not yet live'}"
+ *     {"error":"v2 is not yet live"}
  *
  */
 var getCurrentPrice = function (conversionType, amount, callback) {
@@ -766,7 +526,7 @@ var getCurrentPrice = function (conversionType, amount, callback) {
 		args.push(arguments[argCounter]);
 	}
 	callback = args.pop();
-	if(args.length > 0 && typeof(args[0]) === 'number') {
+	if(args.length > 0 && !isNaN(parseInt(args[0], 10)) === 'number') {
 		amount = args.shift();
 		apiQuery += '&amount=' + amount;
 	}
@@ -788,8 +548,57 @@ var getCurrentPrice = function (conversionType, amount, callback) {
 	});
 };
 
+
+/**
+ * @api {get} /wow/v2/?api_key={API_KEY}&a=create_user&user_id={USER_ID} Create User
+ * @apiVersion 2.0.0
+ * @apiName CreateUser
+ * @apiGroup DogeCoin
+ * @apiPermission user
+ *
+ * @apiDescription Creates a new user identified by {USER_ID} and returns their payment address. Each user has only one payment address.
+ *
+ * @apiParam {String} api_key The user's api key
+ * @apiParam {String} a The action to perform
+ * @apiParam {String} user_id New user identification
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=create_user&user_id={USER_ID}'
+ *
+ * @apiSuccess {String} address The Doge address of the new user
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *     {"data":{"address":"DQyYRYPKL1Gsp1SEkhPsywzz1GHP9v3XGj"}}
+ *
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The reqesting IP is not allowed to make API calls.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
+ *
+ * @apiError (Bad Request 400) UserIdRequired The user id was not provided in the request.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"user_id Required"}
+ *
+ * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"v2 is not yet live"}
+ *
+ */
 var createUser = function(userID, callback) {
 	if(!userID) return callback('Missing user id.');
+	if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
 	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=create_user&user_id=' + userID, function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
@@ -800,8 +609,56 @@ var createUser = function(userID, callback) {
 	});
 };
 
+/**
+ * @api {get} /wow/v2/?api_key={API_KEY}&a=get_user_address&user_id={USER_ID} Get User Address
+ * @apiVersion 2.0.0
+ * @apiName GetUserAddress
+ * @apiGroup DogeCoin
+ * @apiPermission user
+ *
+ * @apiDescription Returns the payment address assigned to the user with a given {USER_ID}
+ *
+ * @apiParam {String} api_key The user's api key
+ * @apiParam {String} a The action to perform
+ * @apiParam {String} user_id User identification (lowercased)
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=get_user_address&user_id={USER_ID}'
+ *
+ * @apiSuccess {String} address The Doge address of the user
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *     {"data":{"address":"DQPKwzz1GHPXGj9L1GlhPsyvyYRY7sp1SE"}}
+ *
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The reqesting IP is not allowed to make API calls.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
+ *
+ * @apiError (Not Found 404) AddressNotFound The user id was not found on the account.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 404 Not Found
+ *     {"error":"Address Not Found"}
+ *
+ * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"v2 is not yet live"}
+ *
+ */
 var getUserAddress = function(userID, callback) {
 	if(!userID) return callback('Missing user id.');
+	if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
 	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_user_address&user_id=' + userID, function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
@@ -812,8 +669,56 @@ var getUserAddress = function(userID, callback) {
 	});
 };
 
+/**
+ * @api {get} /wow/v2/?api_key={API_KEY}&a=get_user_balance&user_id={USER_ID} Get User Balance
+ * @apiVersion 2.0.0
+ * @apiName GetUserBalance
+ * @apiGroup DogeCoin
+ * @apiPermission user
+ *
+ * @apiDescription Returns the payment address assigned to the user with a given {USER_ID}
+ *
+ * @apiParam {String} api_key The user's api key
+ * @apiParam {String} a The action to perform
+ * @apiParam {String} user_id User identification (lowercased)
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=get_user_balance&user_id={USER_ID}'
+ *
+ * @apiSuccess {String} balance The Doge amount of the user
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *     {"data":{"balance":"0.00000000"}}
+ *
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The reqesting IP is not allowed to make API calls.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
+ *
+ * @apiError (Not Found 404) UserNotFound The user id was not found on the account.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 404 Not Found
+ *     {"error":"User Not Found"}
+ *
+ * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"v2 is not yet live"}
+ *
+ */
 var getUserBalance = function(userID, callback) {
 	if(!userID) return callback('Missing user id.');
+	if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
 	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_user_balance&user_id=' + userID, function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
@@ -824,11 +729,75 @@ var getUserBalance = function(userID, callback) {
 	});
 };
 
+/**
+ * @api {get} /wow/v2/?api_key={API_KEY}&a=withdraw_from_user&user_id={USER_ID}&pin={PIN}&amount_doge={AMOUNT_DOGE}&payment_address={PAYMENT_ADDRESS} Withdraw From User
+ * @apiVersion 2.0.0
+ * @apiName WithdrawFromUser
+ * @apiGroup DogeCoin
+ * @apiPermission user
+ *
+ * @apiDescription Withdraws {AMOUNT_DOGE} from {USER_ID} to {PAYMENT_ADDRESS}. Requires your {PIN}. For now this must be more than 5 doge, and you must have enough extra in your wallet to pay all network fees (another 1-3 doge). DogeAPI takes a 0.5% fee when withdrawing.
+ *
+ * @apiParam {String} api_key The user's api key
+ * @apiParam {String} a The action to perform
+ * @apiParam {int} amount_doge The amount to withdraw
+ * @apiParam {String} user_id User identification (lowercased)
+ * @apiParam {int} pin Your account pin number
+ * @apiParam {String} payment_address The account to withdraw to
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=withdraw_from_user&user_id={USER_ID}&pin={PIN}&amount_doge={AMOUNT_DOGE}&payment_address={PAYMENT_ADDRESS}'
+ *
+ * @apiSuccess {String} transaction The unique transaction id on the market
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *     {"data":{"transaction": "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"}}
+ *
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The user's pin was invalid
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
+ *
+ * @apiError (Bad Request 400) NotEnoughDoge The user does not have enough Doge in their account.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"Not Enough Doge"}
+ *
+ * @apiError (Bad Request 400) AmountDogeRequired The amount of doge is missing from the request.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"amount_doge required"}
+ *
+ * @apiError (Bad Request 400) AtLeast5Doge	The amount of doge withdrawing is lower than allowed amount.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"Must Withdraw At Least 5 Doge"}
+ *
+ *
+ * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"v2 is not yet live"}
+ *
+ */
 var withdrawFromUser = function(userID, paymentAddress, amount, pin, callback) {
 	if(!userID) return callback('Missing user id.');
 	if(!paymentAddress) return callback('Missing payment address.');
 	if(!amount) return callback('Missing amount to withdraw.');
 	if(!pin) return callback('Missing account PIN.');
+	if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
 	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=withdraw_from_user&user_id=' + userID + '&pin=' + pin + '&amount_doge=' + amount + '&payment_address=' + paymentAddress, function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
@@ -839,6 +808,68 @@ var withdrawFromUser = function(userID, paymentAddress, amount, pin, callback) {
 	});
 };
 
+/**
+ * @api {get} /wow/v2/?api_key={API_KEY}&a=move_to_user&to_user_id={TO_USER_ID}&from_user_id={FROM_USER_ID}&amount_doge={AMOUNT_DOGE} Move From User
+ * @apiVersion 2.0.0
+ * @apiName MoveToUser
+ * @apiGroup DogeCoin
+ * @apiPermission user
+ *
+ * @apiDescription Moves {AMOUNT_DOGE} to user with ID {TO_USER_ID} from user with ID {FROM_USER_ID}. There is no network fee for this transaction, just the DogeAPI 0.5% fee.
+ *
+ * @apiParam {String} api_key The user's api key
+ * @apiParam {String} a The action to perform
+ * @apiParam {int} amount_doge The amount to withdraw
+ * @apiParam {String} to_user_id User identification of the receiver (lowercased)
+ * @apiParam {String} from_user_id User identification of the sender (lowercased)
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=move_to_user&to_user_id={TO_USER_ID}&from_user_id={FROM_USER_ID}&amount_doge={AMOUNT_DOGE}'
+ *
+ * @apiSuccess {String} transaction The unique transaction id on the market
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *     {"data":{"transaction": "52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963"}}
+ *
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The user's pin was invalid
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
+ *
+ * @apiError (Bad Request 400) NotEnoughDoge The user does not have enough Doge in their account.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"Not Enough Doge"}
+ *
+ * @apiError (Bad Request 400) AmountDogeRequired The amount of doge is missing from the request.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"amount_doge required"}
+ *
+ * @apiError (Bad Request 400) AtLeast5Doge	The amount of doge withdrawing is lower than allowed amount.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"Must Withdraw At Least 5 Doge"}
+ *
+ *
+ * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"v2 is not yet live"}
+ *
+ */
 var moveToUser = function(toUserID, fromUserID, amount, callback) {
 	if(!toUserID) return callback('Missing user id to send to.');
 	if(!fromUserID) return callback('Missing user id to send from.');
@@ -853,6 +884,49 @@ var moveToUser = function(toUserID, fromUserID, amount, callback) {
 	});
 };
 
+/**
+ * @api {get} /wow/v2/?api_key={API_KEY}&a=get_users Get Users
+ * @apiVersion 2.0.0
+ * @apiName GetUsers
+ * @apiGroup DogeCoin
+ * @apiPermission user
+ *
+ * @apiDescription Returns a list of users asssociated with your account with their balances.
+ *
+ * @apiParam {String} api_key The user's api key
+ * @apiParam {String} a The action to perform
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=get_users'
+ *
+ * @apiSuccess {Array} users The list of users
+ * @apiSuccess {String} user_id The user identification (lowercased)
+ * @apiSuccess {String} payment_address The user's Doge address.
+ * @apiSuccess {String} user_balance The user's Doge amount in their address
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *     {"data":{"users":[{"user_id":"testuser","payment_address":"DQRYSEkhPsywzz1v3XGjGLPKLyY1Gsp1P9","user_balance":"0.00000000"},{"user_id":"1","payment_address":"DGFDjNRaaDQd9Vh7iDQ1MseRuL3tCta2LN","user_balance":"0.00000000"}]}}
+ *
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The user's pin was invalid
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
+ *
+ * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"v2 is not yet live"}
+ *
+ */
 var getUsers = function(callback) {
 	request(ENDPOINT + '/wow/v2/?api_key=' + APIKEY + '&a=get_users', function (error, response, body) {
 		if(error) return callback(error);
@@ -864,6 +938,81 @@ var getUsers = function(callback) {
 	});
 };
 
+/**
+ * @api {get} /wow/v2/?api_key={API_KEY}&a=get_transactions&num={NUMBER}&type={TYPE}&user_id={USER_ID}&payment_address={PAYMENT_ADDRESS}&label={LABEL} Get Transactions
+ * @apiVersion 2.0.0
+ * @apiName GetTransactions
+ * @apiGroup DogeCoin
+ * @apiPermission user
+ *
+ * @apiDescription Returns a list of users asssociated with your account with their balances.
+ *
+ * @apiParam {String} api_key The user's api key
+ * @apiParam {String} a The action to perform
+ * @apiParam {int} num The number of transactions
+ * @apiParam {String} type The type of transaction. This can be "receive", "send", "move", or "fee"
+ * @apiParam {String} user_id (Optional) The user identification (lowercased)
+ * @apiParam {String} payment_address (Optional) A Doge address
+ * @apiParam {String} label (Optional) A label for one of the Doge addresses on the account
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=get_transactions&num={NUMBER}&type={TYPE}&user_id={USER_ID}'
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=get_transactions&num={NUMBER}&type={TYPE}&payment_address={PAYMENT_ADDRESS}'
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?api_key={API_KEY}&a=get_transactions&num={NUMBER}&type={TYPE}&label={LABEL}'
+ *
+ * @apiSuccess {Array} transactions The list of transactions
+ * @apiSuccess {String} txid The transaction id
+ * @apiSuccess {String} amount The amount in the transaction
+ * @apiSuccess {String} transaction_label The label for the transaction
+ * @apiSuccess {int} transaction_time The epoch time of the transaction
+ * @apiSuccess {String} address The doge address that participated in the transaction
+ * @apiSuccess {String} transaction_type The type of transaction
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *     {"data":{"transactions":[{"txid":"309eb1b0e78aa194662f08cff24927c3","amount":"5.97000000","transaction_label":"TestTransaction","transaction_time":1392834438,"address":"DQyYRYPKL1Gsp1SEkhPsywzz1GHP9v3XGj","transaction_type":"wallet"}]}}
+ *
+ * @apiError (Unauthorized 401) InvalidAPIKey The user's API key is either missing or invalid.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Invalid API Key"}
+ *
+ * @apiError (Unauthorized 401) UnauthorizedShibe The user's pin was invalid
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 401 Unauthorized
+ *     {"error":"Unauthorized Shibe"}
+ *
+ * @apiError (Bad Request 400) NumRequired The num parameter was missing.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"num Required"}
+ *
+ * @apiError (Bad Request 400) TypeRequired The type of transaction parameter was missing.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"type Required"}
+ *
+ * @apiError (Not Found 404) InvalidType The type of transaction parameter was invalid. Should be "receive", "send", "move", or "fee".
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 404 Not Found
+ *     {"error":"Transaction type is invalid"}
+ *
+ * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"v2 is not yet live"}
+ *
+ */
 // TODO this one needs more investigating. Can we only pass num? Or can we pass user id, payment address, and/or label as well.
 var getTransactions = function(number, type, callback) {
 	if(!number) return callback('Missing transaction number to match.');
@@ -872,7 +1021,7 @@ var getTransactions = function(number, type, callback) {
 	var isTypeValue = false;
 	switch(type.toLowerCase()) {
 		case 'receive';
-		case 'sent':
+		case 'send':
 		case 'move':
 		case 'fee':
 			isTypeValue = true;
@@ -891,6 +1040,33 @@ var getTransactions = function(number, type, callback) {
 	});
 };
 
+/**
+ * @api {get} /wow/v2/?a=get_network_hashrate Get Network Hashrate
+ * @apiVersion 2.0.0
+ * @apiName GetNetworkHashrate
+ * @apiGroup DogeCoin
+ * @apiPermission public
+ *
+ * @apiDescription Returns the current network hashrate. This doesn't require an API key.
+ *
+ * @apiParam {String} a The action to perform
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?a=get_network_hashrate'
+ *
+ * @apiSuccess {String} network_hashrate The current hashrate of the network
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *    {"data":{"network_hashrate":"77615954075"}}
+ *
+ * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"v2 is not yet live"}
+ *
+ */
 var getNetworkHashRate = function(callback) {
 	request(ENDPOINT + '/wow/v2/?a=get_network_hashrate', function (error, response, body) {
 		if(error) return callback(error);
@@ -902,6 +1078,41 @@ var getNetworkHashRate = function(callback) {
 	});
 };
 
+/**
+ * @api {get} /wow/v2/?a=get_info Get Info
+ * @apiVersion 2.0.0
+ * @apiName GetInfo
+ * @apiGroup DogeCoin
+ * @apiPermission public
+ *
+ * @apiDescription Returns current information, including price in USD/BTC, block count, difficulty, 5 minute price change, network hashrate, and API version. This doesn't require an API key.
+ *
+ * @apiParam {String} a The action to perform
+ *
+ * @apiExample CURL example:
+ *      curl -X GET 'https://dogeapi.com/wow/v2/?a=get_info'
+ *
+ * @apiSuccess {Object} info The current information
+ * @apiSuccess {String} difficulty The current network difficulty
+ * @apiSuccess {String} network_hashrate The current network hashrate
+ * @apiSuccess {String} current_block The current block
+ * @apiSuccess {String} doge_usd The price in USD per 1 Doge.
+ * @apiSuccess {String} doge_btc The price in USD per 1 Bitcoin.
+ * @apiSuccess {String} 5min_btc_change Fluxuation in Doge/Bitcoin pricing?
+ * @apiSuccess {String} 5min_btc_change Fluxuation in Doge/USD pricing?
+ * @apiSuccess {String} api_version The current API version
+ *
+ * @apiSuccessExample Success-Response (example):
+ *     HTTP/1.1 200 OK
+ *    {"data":{"info":{"difficulty":"1190.35","network_hashrate":"77803335203","current_block":"110773","doge_usd":"0.00119679","doge_btc":"0.00000210","5min_btc_change":"0.00000000","5min_usd_change":"0.00000000","api_version":"2"}}}
+ *
+ * @apiError (Bad Request 400) NotLive The v2 API is not available for the specified API key given.
+ *
+ * @apiErrorExample Error-Response (example):
+ *     HTTP/1.1 400 Bad Request
+ *     {"error":"v2 is not yet live"}
+ *
+ */
 var getInfo = function(callback) {
 	request(ENDPOINT + '/wow/v2/?a=get_info', function (error, response, body) {
 		if(error) return callback(error);
