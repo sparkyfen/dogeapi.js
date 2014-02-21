@@ -89,6 +89,12 @@ define({ api: [
           },
           {
             "group": "Bad Request 400",
+            "field": "UserExists",
+            "optional": false,
+            "description": "The user id already exists."
+          },
+          {
+            "group": "Bad Request 400",
             "field": "NotLive",
             "optional": false,
             "description": "The v2 API is not available for the specified API key given."
@@ -107,6 +113,10 @@ define({ api: [
         {
           "title": "Error-Response (example):",
           "content": "   HTTP/1.1 400 Bad Request\n   {\"error\":\"user_id Required\"}\n"
+        },
+        {
+          "title": "Error-Response (example):",
+          "content": "   HTTP/1.1 400 Bad Request\n   {\"error\":\"User Already Exists\"}\n"
         },
         {
           "title": "Error-Response (example):",
@@ -2372,17 +2382,17 @@ define({ api: [
         "Success 200": [
           {
             "group": "Success 200",
-            "type": "String",
-            "field": "transaction",
+            "type": "Double",
+            "field": "fee",
             "optional": false,
-            "description": "The unique transaction id on the market"
+            "description": "The fee for the transaction"
           }
         ]
       },
       "examples": [
         {
           "title": "Success-Response (example):",
-          "content": "   HTTP/1.1 200 OK\n   {\"data\":{\"transaction\": \"52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963\"}}\n"
+          "content": "   HTTP/1.1 200 OK\n   {\"data\":{\"success\":{\"fee\":0.05}}}\n"
         }
       ]
     },
@@ -2533,7 +2543,7 @@ define({ api: [
       "examples": [
         {
           "title": "Success-Response (example):",
-          "content": "   HTTP/1.1 200 OK\n   {\"data\":{\"transaction\": \"52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963\"}}\n"
+          "content": "   HTTP/1.1 200 OK\n   {\"data\":{\"txid\": \"52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963\"}}\n"
         }
       ]
     },
@@ -2803,7 +2813,7 @@ define({ api: [
       "examples": [
         {
           "title": "Success-Response (example):",
-          "content": "   HTTP/1.1 200 OK\n   {\"data\":{\"transaction\": \"52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963\"}}\n"
+          "content": "   HTTP/1.1 200 OK\n   {\"data\":{\"txid\": \"52c5a2923b113ef07c47b077ba8bf3a03381c687f218f6b326773892565d6963\"}}\n"
         }
       ]
     },
