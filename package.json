@@ -1,7 +1,7 @@
 {
-  "name": "dogeapi.js",
+  "name": "dogeapi",
   "description": "NodeJS module for https://dogeapi.com/",
-  "version": "1.0.1",
+  "version": "2.0.1",
   "maintainers": [
     {
       "name": "Adam Schodde",
@@ -34,6 +34,6 @@
   },
   "scripts": {
     "install": "cp src/settings.js.template src/settings.js",
-    "test": "jasmine-node-karma test/"
+    "test": "./node_modules/.bin/jasmine-node-karma test/"
   }
 }
