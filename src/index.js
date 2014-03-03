@@ -11,11 +11,15 @@
  *
  * @apiVersion 1.0.0
  */
-var settings = require('./settings.js');
-var APIKEY = settings.apikey;
+var defaultSettings = require('./settings.js');
 var request = require('request');
 var validator = require('validator');
-var ENDPOINT = settings.endpoint;
+
+function DogeAPI(settings) {
+    settings = settings || {};
+    this._endpoint = settings.endpoint || defaultSettings.endpoint;
+    this._apikey = settings.apikey || defaultSettings.apikey;
+}
 
 /**
  * @api {get} /wow/?api_key={API_KEY}&a=get_balance Get Balance
@@ -45,10 +49,11 @@ var ENDPOINT = settings.endpoint;
  *     "Invalid API Key"
  *
  */
-var getBalance = function (callback) {
-	_checkAPIKey(function (error) {
+DogeAPI.prototype.getBalance = function (callback) {
+    var self = this;
+	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
-		request(ENDPOINT + 'wow/?api_key=' + APIKEY + '&a=get_balance', function (error, response, body) {
+		request(self._endpoint + 'wow/?api_key=' + self._apikey + '&a=get_balance', function (error, response, body) {
 			if(error) return callback(error);
 			if(response.statusCode === 200) {
 				return callback(null, body);
@@ -101,13 +106,14 @@ var getBalance = function (callback) {
  *     "Bad Query"
  *
  */
-var withdraw = function (amount, paymentAddress, callback) {
-	_checkAPIKey(function (error) {
+DogeAPI.prototype.withdraw = function (amount, paymentAddress, callback) {
+    var self = this;
+	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
 		if(!amount) return callback('Missing amount to withdraw.');
 		if(!paymentAddress) return callback('Missing payment address to send to.');
 		// TODO there may be an issue withdrawing amounts lower than 10 doge.
-		request(ENDPOINT + 'wow/?api_key=' + APIKEY + '&a=withdraw&amount=' + amount + '&payment_address=' + paymentAddress, function (error, response, body) {
+		request(self._endpoint + 'wow/?api_key=' + self._apikey + '&a=withdraw&amount=' + amount + '&payment_address=' + paymentAddress, function (error, response, body) {
 			if(error) return callback(error);
 			if(response.statusCode === 200) {
 				return callback(null, body);
@@ -147,10 +153,11 @@ var withdraw = function (amount, paymentAddress, callback) {
  *     "Invalid API Key"
  *
  */
-var getNewAddress = function (addressLabel, callback) {
-	_checkAPIKey(function (error) {
+DogeAPI.prototype.getNewAddress = function (addressLabel, callback) {
+    var self = this;
+	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
-		var apiQuery = 'wow/?api_key=' + APIKEY + '&a=get_new_address'
+		var apiQuery = 'wow/?api_key=' + self._apikey + '&a=get_new_address'
 		if(addressLabel) {
 			if(validator.isAlphanumeric(addressLabel)) {
 				apiQuery += '&address_label=' + addressLabel;
@@ -158,7 +165,7 @@ var getNewAddress = function (addressLabel, callback) {
 				return callback('Invalid address label.');
 			}
 		}
-		request(ENDPOINT + apiQuery, function (error, response, body) {
+		request(self._endpoint + apiQuery, function (error, response, body) {
 			if(error) return callback(error);
 			if(response.statusCode === 200) {
 				return callback(null, body);
@@ -197,10 +204,11 @@ var getNewAddress = function (addressLabel, callback) {
  *     "Invalid API Key"
  *
  */
-var getAddresses = function (callback) {
-	_checkAPIKey(function (error) {
+DogeAPI.prototype.getAddresses = function (callback) {
+    var self = this;
+	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
-		request(ENDPOINT + 'wow/?api_key=' + APIKEY + '&a=get_my_addresses', function (error, response, body) {
+		request(self._endpoint + 'wow/?api_key=' + self._apikey + '&a=get_my_addresses', function (error, response, body) {
 			if(error) return callback(error);
 			if(response.statusCode === 200) {
 				return callback(null, body);
@@ -244,21 +252,22 @@ var getAddresses = function (callback) {
  *     "Invalid API Key"
  *     
  */
-var getAddressReceived = function (paymentAddress, addressLabel, callback) {
-	_checkAPIKey(function (error) {
+DogeAPI.prototype.getAddressReceived = function (paymentAddress, addressLabel, callback) {
+    var self = this;
+	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
 		if(!paymentAddress) return callback('Missing payment address or address label.');
 		// Verify we have a read address
-		_verifyAddress(paymentAddress, function (error) {
+		self._verifyAddress(paymentAddress, function (error) {
 			if(error) return callback(error);
 			// If we did not get an address label, then we only have payment address and callback
 			addressLabel = typeof(addressLabel) === 'undefined' ? null : addressLabel;
 			if(!addressLabel) {
-				apiQuery = 'wow/?api_key=' + APIKEY + '&a=get_address_received&payment_address=' + paymentAddress;
+				apiQuery = 'wow/?api_key=' + self._apikey + '&a=get_address_received&payment_address=' + paymentAddress;
 			} else {
-				apiQuery = 'wow/?api_key=' + APIKEY + '&a=get_address_received&address_label=' + addressLabel
+				apiQuery = 'wow/?api_key=' + self._apikey + '&a=get_address_received&address_label=' + addressLabel
 			}
-			request(ENDPOINT + apiQuery, function (error, response, body) {
+			request(self._endpoint + apiQuery, function (error, response, body) {
 				if(error) return callback(error);
 				if(response.statusCode === 200) {
 					return callback(null, body);
@@ -302,11 +311,12 @@ var getAddressReceived = function (paymentAddress, addressLabel, callback) {
  *     HTTP/1.1 200 OK
  *     null
  */
-var getAddressByLabel = function (addressLabel, callback) {
-	_checkAPIKey(function (error) {
+DogeAPI.prototype.getAddressByLabel = function (addressLabel, callback) {
+    var self = this;
+	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
 		if(!addressLabel) return callback('Missing address label.');
-		request(ENDPOINT + 'wow/?api_key='+APIKEY+'&a=get_address_by_label&address_label='+addressLabel, function (error, response, body) {
+		request(self._endpoint + 'wow/?api_key='+self._apikey+'&a=get_address_by_label&address_label='+addressLabel, function (error, response, body) {
 			if(error) return callback(error);
 			if(response.statusCode === 200) {
 				return callback(null, body);
@@ -338,8 +348,9 @@ var getAddressByLabel = function (addressLabel, callback) {
  *     321.8045805
  *
  */
-var getDifficulty = function (callback) {
-	request(ENDPOINT + 'wow/?a=get_difficulty', function (error, response, body) {
+DogeAPI.prototype.getDifficulty = function (callback) {
+    var self = this;
+	request(self._endpoint + 'wow/?a=get_difficulty', function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
 			return callback(null, body);
@@ -370,8 +381,9 @@ var getDifficulty = function (callback) {
  *     39405
  *
  */
-var getCurrentBlock = function (callback) {
-	request(ENDPOINT + 'wow/?a=get_current_block', function (error, response, body) {
+DogeAPI.prototype.getCurrentBlock = function (callback) {
+    var self = this;
+	request(self._endpoint + 'wow/?a=get_current_block', function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
 			return callback(null, body);
@@ -416,7 +428,8 @@ var getCurrentBlock = function (callback) {
  *     "Invalid Amount"
  *
  */
-var getCurrentPrice = function (conversionType, amount, callback) {
+DogeAPI.prototype.getCurrentPrice = function (conversionType, amount, callback) {
+    var self = this;
 	var apiQuery = 'wow/?a=get_current_price';
 	var args = [];
 	for(var argCounter = 0; argCounter < arguments.length; argCounter++) {
@@ -435,7 +448,7 @@ var getCurrentPrice = function (conversionType, amount, callback) {
 		amount = args.shift();
 		apiQuery += '&amount=' + amount;
 	}
-	request(ENDPOINT + apiQuery, function (error, response, body) {
+	request(self._endpoint + apiQuery, function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
 			return callback(null, body);
@@ -448,11 +461,12 @@ var getCurrentPrice = function (conversionType, amount, callback) {
 
 
 //Verifies that the incoming address is legitimate
-var _verifyAddress = function (dogeAddr, callback) {
+DogeAPI.prototype._verifyAddress = function (dogeAddr, callback) {
+    var self = this;
 	if(dogeAddr.length !== 34 || dogeAddr[0] !== 'D') {
 		return callback('Invalid doge address.');
 	}
-	_dogeChainVerify(dogeAddr, function (error) {
+	self._dogeChainVerify(dogeAddr, function (error) {
 		if(error && error.code === 'ETIMEOUT') {
 			return callback(); // We could not query dogechain so we will allow DogeAPI to deal with more verification
 		} else if(error) {
@@ -463,7 +477,8 @@ var _verifyAddress = function (dogeAddr, callback) {
 };
 
 // Queries DogeChain to verify the legitimacy of an address
-var _dogeChainVerify = function(dogeAddr, callback) {
+DogeAPI.prototype._dogeChainVerify = function(dogeAddr, callback) {
+    var self = this;
 	request('http://dogechain.info/chain/Dogecoin/q/checkaddress/'+dogeAddr, function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
@@ -480,21 +495,12 @@ var _dogeChainVerify = function(dogeAddr, callback) {
 };
 
 // Check to make sure we have an API key
-var _checkAPIKey = function (callback) {
-	if(APIKEY === undefined || APIKEY === '' || APIKEY === null) {
+DogeAPI.prototype._checkAPIKey = function (callback) {
+    var self = this;
+	if(self._apikey === undefined || self._apikey === '' || self._apikey === null) {
 		return callback('Missing API key.');
 	}
 	return callback();
 };
 
-module.exports = {
-	getBalance: getBalance,
-	withdraw: withdraw,
-	getNewAddress: getNewAddress,
-	getAddresses: getAddresses,
-	getAddressReceived: getAddressReceived,
-	getAddressByLabel: getAddressByLabel,
-	getDifficulty: getDifficulty,
-	getCurrentBlock: getCurrentBlock,
-	getCurrentPrice: getCurrentPrice
-};
+module.exports = DogeAPI;
