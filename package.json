@@ -1,7 +1,7 @@
 {
   "name": "dogeapi",
   "description": "NodeJS module for https://dogeapi.com/",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "maintainers": [
     {
       "name": "Adam Schodde",
