@@ -50,7 +50,7 @@ function DogeAPI(settings) {
  *
  */
 DogeAPI.prototype.getBalance = function (callback) {
-    var self = this;
+  var self = this;
 	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
 		request(self._endpoint + 'wow/?api_key=' + self._apikey + '&a=get_balance', function (error, response, body) {
@@ -107,7 +107,7 @@ DogeAPI.prototype.getBalance = function (callback) {
  *
  */
 DogeAPI.prototype.withdraw = function (amount, paymentAddress, callback) {
-    var self = this;
+  var self = this;
 	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
 		if(!amount) return callback('Missing amount to withdraw.');
@@ -154,7 +154,7 @@ DogeAPI.prototype.withdraw = function (amount, paymentAddress, callback) {
  *
  */
 DogeAPI.prototype.getNewAddress = function (addressLabel, callback) {
-    var self = this;
+  var self = this;
 	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
 		var apiQuery = 'wow/?api_key=' + self._apikey + '&a=get_new_address'
@@ -205,7 +205,7 @@ DogeAPI.prototype.getNewAddress = function (addressLabel, callback) {
  *
  */
 DogeAPI.prototype.getAddresses = function (callback) {
-    var self = this;
+  var self = this;
 	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
 		request(self._endpoint + 'wow/?api_key=' + self._apikey + '&a=get_my_addresses', function (error, response, body) {
@@ -227,7 +227,7 @@ DogeAPI.prototype.getAddresses = function (callback) {
  * @apiPermission user
  *
  * @apiDescription Returns the current amount received to all addresses with {ADDRESS_LABEL} or {PAYMENT_ADDRESS}.
- * 
+ *
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
  * @apiParam {String} payment_address The payment address to check the amount with
@@ -235,10 +235,10 @@ DogeAPI.prototype.getAddresses = function (callback) {
  *
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_received&payment_address={PAYMENT_ADDRESS}'
- *      
+ *
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_received&address_label={ADDRESS_LABEL}'
- *      
+ *
  * @apiSuccess {Array} addresses The list of addresses on your account.
  *
  * @apiSuccessExample Success-Response (example):
@@ -246,14 +246,14 @@ DogeAPI.prototype.getAddresses = function (callback) {
  *     ["DQ6eccdPZ4n3Hi6orzyD6XZ6XF24ndBFRX", "DQrzy5eci6oZ4n9HD6XFRX4dnBZ4ncdPdB"]
  *
  * @apiError (Success 200) InvalidAPIKey The user's API key is either missing or invalid.
- * 
+ *
  * @apiErrorExample Error-Response (example):
  *     HTTP/1.1 200 OK
  *     "Invalid API Key"
- *     
+ *
  */
 DogeAPI.prototype.getAddressReceived = function (paymentAddress, addressLabel, callback) {
-    var self = this;
+  var self = this;
 	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
 		if(!paymentAddress) return callback('Missing payment address or address label.');
@@ -287,11 +287,11 @@ DogeAPI.prototype.getAddressReceived = function (paymentAddress, addressLabel, c
  * @apiPermission user
  *
  * @apiDescription Returns the payment address for the given {ADDRESS_LABEL}
- * 
+ *
  * @apiParam {String} apikey The user's api key
  * @apiParam {String} a The action to perform
  * @apiParam {String} address_label The address label to check the amount with
- * 
+ *
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/?api_key={API_KEY}&a=get_address_by_label&address_label={ADDRESS_LABEL}'
  *
@@ -312,7 +312,7 @@ DogeAPI.prototype.getAddressReceived = function (paymentAddress, addressLabel, c
  *     null
  */
 DogeAPI.prototype.getAddressByLabel = function (addressLabel, callback) {
-    var self = this;
+  var self = this;
 	self._checkAPIKey(function (error) {
 		if(error) return callback(error);
 		if(!addressLabel) return callback('Missing address label.');
@@ -335,9 +335,9 @@ DogeAPI.prototype.getAddressByLabel = function (addressLabel, callback) {
  * @apiPermission public
  *
  * @apiDescription Returns the current difficulty. This doesn't require an API key.
- * 
+ *
  * @apiParam {String} a The action to perform
- * 
+ *
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/?a=get_difficulty'
  *
@@ -349,7 +349,7 @@ DogeAPI.prototype.getAddressByLabel = function (addressLabel, callback) {
  *
  */
 DogeAPI.prototype.getDifficulty = function (callback) {
-    var self = this;
+  var self = this;
 	request(self._endpoint + 'wow/?a=get_difficulty', function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
@@ -368,9 +368,9 @@ DogeAPI.prototype.getDifficulty = function (callback) {
  * @apiPermission public
  *
  * @apiDescription Returns the current block. This doesn't require an API key.
- * 
+ *
  * @apiParam {String} a The action to perform
- * 
+ *
  * @apiExample CURL example:
  *      curl -X GET 'https://dogeapi.com/wow/?a=get_current_block'
  *
@@ -429,7 +429,7 @@ DogeAPI.prototype.getCurrentBlock = function (callback) {
  *
  */
 DogeAPI.prototype.getCurrentPrice = function (conversionType, amount, callback) {
-    var self = this;
+  var self = this;
 	var apiQuery = 'wow/?a=get_current_price';
 	var args = [];
 	for(var argCounter = 0; argCounter < arguments.length; argCounter++) {
@@ -462,7 +462,7 @@ DogeAPI.prototype.getCurrentPrice = function (conversionType, amount, callback) 
 
 //Verifies that the incoming address is legitimate
 DogeAPI.prototype._verifyAddress = function (dogeAddr, callback) {
-    var self = this;
+  var self = this;
 	if(dogeAddr.length !== 34 || dogeAddr[0] !== 'D') {
 		return callback('Invalid doge address.');
 	}
@@ -478,7 +478,7 @@ DogeAPI.prototype._verifyAddress = function (dogeAddr, callback) {
 
 // Queries DogeChain to verify the legitimacy of an address
 DogeAPI.prototype._dogeChainVerify = function(dogeAddr, callback) {
-    var self = this;
+  var self = this;
 	request('http://dogechain.info/chain/Dogecoin/q/checkaddress/'+dogeAddr, function (error, response, body) {
 		if(error) return callback(error);
 		if(response.statusCode === 200) {
@@ -496,7 +496,7 @@ DogeAPI.prototype._dogeChainVerify = function(dogeAddr, callback) {
 
 // Check to make sure we have an API key
 DogeAPI.prototype._checkAPIKey = function (callback) {
-    var self = this;
+  var self = this;
 	if(self._apikey === undefined || self._apikey === '' || self._apikey === null) {
 		return callback('Missing API key.');
 	}

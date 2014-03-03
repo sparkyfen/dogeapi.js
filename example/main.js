@@ -1,14 +1,15 @@
-var dogeAPI = require('../../src/index.js');
+var DogeAPI = require('../../src/index.js');
+instance = new DogeAPI();
 
 // Get balance
-dogeAPI.getBalance(function (error, balance) {
+instance.getBalance(function (error, balance) {
 	if(error) {
 		// Handle error
 	}
 	console.log(balance);
 });
 
-dogeAPI.withdraw(amount, paymentAddress, function (error, transactionid) {
+instance.withdraw(amount, paymentAddress, function (error, transactionid) {
 	if(error) {
 		// Handle error
 	}
@@ -16,7 +17,7 @@ dogeAPI.withdraw(amount, paymentAddress, function (error, transactionid) {
 });
 
 // Get a new address created
-dogeAPI.getNewAddress(addressLabel, function (error, address) {
+instance.getNewAddress(addressLabel, function (error, address) {
 	if(error) {
 		// Handle error
 	}
@@ -24,7 +25,7 @@ dogeAPI.getNewAddress(addressLabel, function (error, address) {
 });
 
 // Get addresses
-dogeAPI.getAddresses(function (error, addresses) {
+instance.getAddresses(function (error, addresses) {
 	if(error) {
 		// Handle error
 	}
@@ -32,35 +33,35 @@ dogeAPI.getAddresses(function (error, addresses) {
 });
 
 // Get address received
-dogeAPI.getAddressReceived(null, 'main', function (error, amount) {
+instance.getAddressReceived(null, 'main', function (error, amount) {
 	if(error) {
 		// Handle error
 	}
 	console.log(amount);
 });
 
-dogeAPI.getAddressByLabel(addressLabel, function (error, address) {
+instance.getAddressByLabel(addressLabel, function (error, address) {
 	if(error) {
 		// Handle error
 	}
 	console.log(address);
 });
 
-dogeAPI.getDifficulty(function (error, difficulty) {
+instance.getDifficulty(function (error, difficulty) {
 	if(error) {
 		// Handle error
 	}
 	console.log(difficulty);
 });
 
-dogeAPI.getCurrentBlock(function (error, currentBlock) {
+instance.getCurrentBlock(function (error, currentBlock) {
 	if(error) {
 		// Handle error
 	}
 	console.log(currentBlock);
 });
-dogeAPI.getCurrentPrice('BTC', 1000, function (error, price) {
+instance.getCurrentPrice('BTC', 1000, function (error, price) {
 	if(error) {
 		// Handle error
 	}
-})
+});
