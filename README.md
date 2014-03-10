@@ -1,7 +1,7 @@
 DogeAPI.js
 ==========
 
-As per the [documentation](https://dogeapi.com/api_documentation), the API is ~~currently in testing mode only~~ now live!
+Official [Documentation](https://dogeapi.com/api_documentation_v2)
 
 Author
 ------
@@ -9,7 +9,7 @@ Adam Schodde
 
 Version
 -------
-1.1.0
+2.0.1
 
 Installation
 -----------
