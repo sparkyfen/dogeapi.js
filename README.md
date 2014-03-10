@@ -1,7 +1,7 @@
 DogeAPI.js
 ==========
 
-Official [Documentation](https://dogeapi.com/api_documentation_v2)
+Official [Documentation](https://dogeapi.com/api_documentation)
 
 Author
 ------
