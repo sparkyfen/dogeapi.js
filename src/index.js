@@ -56,7 +56,7 @@ function DogeAPI(settings) {
  *
  */
 DogeAPI.prototype.getBalance = function (callback) {
-	var self = this;
+  var self = this;
   self._checkAPIKey(function (error) {
     if(error) return callback(error);
     request(self._endpoint + 'wow/v2/?api_key=' + self._apikey + '&a=get_balance', function (error, response, body) {
@@ -133,7 +133,7 @@ DogeAPI.prototype.getBalance = function (callback) {
  *
  */
 DogeAPI.prototype.withdraw = function (amount, paymentAddress, pin, callback) {
-	var self = this;
+  var self = this;
   self._checkAPIKey(function (error) {
     if(error) return callback(error);
     if(!amount) return callback('Missing amount to withdraw.');
@@ -192,7 +192,7 @@ DogeAPI.prototype.withdraw = function (amount, paymentAddress, pin, callback) {
  *
  */
 DogeAPI.prototype.getNewAddress = function (addressLabel, callback) {
-	var self = this;
+  var self = this;
   self._checkAPIKey(function (error) {
     if(error) return callback(error);
     var apiQuery = 'wow/v2/?api_key=' + self._apikey + '&a=get_new_address'
@@ -255,7 +255,7 @@ DogeAPI.prototype.getNewAddress = function (addressLabel, callback) {
  *
  */
 DogeAPI.prototype.getAddresses = function (callback) {
-	var self = this;
+  var self = this;
   self._checkAPIKey(function (error) {
     if(error) return callback(error);
     request(self._endpoint + 'wow/v2/?api_key=' + self._apikey + '&a=get_my_addresses', function (error, response, body) {
@@ -321,7 +321,7 @@ DogeAPI.prototype.getAddresses = function (callback) {
  *
  */
 DogeAPI.prototype.getAddressReceived = function (paymentAddress, addressLabel, callback) {
-	var self = this;
+  var self = this;
   self._checkAPIKey(function (error) {
     if(error) return callback(error);
     if(!paymentAddress) return callback('Missing payment address or address label.');
@@ -396,7 +396,7 @@ DogeAPI.prototype.getAddressReceived = function (paymentAddress, addressLabel, c
  *
  */
 DogeAPI.prototype.getAddressByLabel = function (addressLabel, callback) {
-	var self = this;
+  var self = this;
   self._checkAPIKey(function (error) {
     if(error) return callback(error);
     if(!addressLabel) return callback('Missing address label.');
@@ -439,7 +439,7 @@ DogeAPI.prototype.getAddressByLabel = function (addressLabel, callback) {
  *
  */
 DogeAPI.prototype.getDifficulty = function (callback) {
-	var self = this;
+  var self = this;
   request(self._endpoint + 'wow/v2/?a=get_difficulty', function (error, response, body) {
     if(error) return callback(error);
     if(response.statusCode === 200) {
@@ -478,7 +478,7 @@ DogeAPI.prototype.getDifficulty = function (callback) {
  *
  */
 DogeAPI.prototype.getCurrentBlock = function (callback) {
-	var self = this;
+  var self = this;
   request(self._endpoint + 'wow/v2/?a=get_current_block', function (error, response, body) {
     if(error) return callback(error);
     if(response.statusCode === 200) {
@@ -531,7 +531,7 @@ DogeAPI.prototype.getCurrentBlock = function (callback) {
  *
  */
 DogeAPI.prototype.getCurrentPrice = function (conversionType, amount, callback) {
-	var self = this;
+  var self = this;
   var apiQuery = 'wow/v2/?a=get_current_price';
   var args = [];
   for(var argCounter = 0; argCounter < arguments.length; argCounter++) {
@@ -618,7 +618,7 @@ DogeAPI.prototype.getCurrentPrice = function (conversionType, amount, callback) 
  *
  */
 DogeAPI.prototype.createUser = function(userID, callback) {
-	var self = this;
+  var self = this;
   if(!userID) return callback('Missing user id.');
   if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
   self._checkAPIKey(function (error) {
@@ -682,7 +682,7 @@ DogeAPI.prototype.createUser = function(userID, callback) {
  *
  */
 DogeAPI.prototype.getUserAddress = function(userID, callback) {
-	var self = this;
+  var self = this;
   if(!userID) return callback('Missing user id.');
   if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
   self._checkAPIKey(function (error) {
@@ -746,7 +746,7 @@ DogeAPI.prototype.getUserAddress = function(userID, callback) {
  *
  */
 DogeAPI.prototype.getUserBalance = function(userID, callback) {
-	var self = this;
+  var self = this;
   if(!userID) return callback('Missing user id.');
   if(!validator.isAlphanumeric(userID)) return callback('Invalid user id.');
   self._checkAPIKey(function (error) {
@@ -826,7 +826,7 @@ DogeAPI.prototype.getUserBalance = function(userID, callback) {
  *
  */
 DogeAPI.prototype.withdrawFromUser = function(userID, paymentAddress, amount, pin, callback) {
-	var self = this;
+  var self = this;
   if(!userID) return callback('Missing user id.');
   if(!paymentAddress) return callback('Missing payment address.');
   if(!amount) return callback('Missing amount to withdraw.');
@@ -908,7 +908,7 @@ DogeAPI.prototype.withdrawFromUser = function(userID, paymentAddress, amount, pi
  *
  */
 DogeAPI.prototype.moveToUser = function(toUserID, fromUserID, amount, callback) {
-	var self = this;
+  var self = this;
   if(!toUserID) return callback('Missing user id to send to.');
   if(!fromUserID) return callback('Missing user id to send from.');
   if(!amount) return callback('Missing amount to move.');
@@ -969,7 +969,7 @@ DogeAPI.prototype.moveToUser = function(toUserID, fromUserID, amount, callback) 
  *
  */
 DogeAPI.prototype.getUsers = function(callback) {
-	var self = this;
+  var self = this;
   self._checkAPIKey(function (error) {
     if(error) return callback(error);
     request(self._endpoint + '/wow/v2/?api_key=' + self._apikey + '&a=get_users', function (error, response, body) {
@@ -1059,7 +1059,7 @@ DogeAPI.prototype.getUsers = function(callback) {
  *
  */
 DogeAPI.prototype.getTransactions = function(number, type, option, callback) {
-	var self = this;
+  var self = this;
   // Get arguments
   var args = [];
   for(var argCounter = 0; argCounter < arguments.length; argCounter++) {
@@ -1161,7 +1161,7 @@ DogeAPI.prototype.getTransactions = function(number, type, option, callback) {
  *
  */
 DogeAPI.prototype.getNetworkHashRate = function(callback) {
-	var self = this;
+  var self = this;
   request(self._endpoint + '/wow/v2/?a=get_network_hashrate', function (error, response, body) {
     if(error) return callback(error);
     if(response.statusCode === 200) {
@@ -1208,7 +1208,7 @@ DogeAPI.prototype.getNetworkHashRate = function(callback) {
  *
  */
 DogeAPI.prototype.getInfo = function(callback) {
-	var self = this;
+  var self = this;
   request(self._endpoint + '/wow/v2/?a=get_info', function (error, response, body) {
     if(error) return callback(error);
     if(response.statusCode === 200) {
@@ -1221,7 +1221,7 @@ DogeAPI.prototype.getInfo = function(callback) {
 
 //Verifies that the incoming address is legitimate
 DogeAPI.prototype._verifyAddress = function (dogeAddr, callback) {
-	var self = this;
+  var self = this;
   if(dogeAddr.length !== 34 || dogeAddr[0] !== 'D') {
     return callback('Invalid doge address.');
   }
@@ -1237,7 +1237,7 @@ DogeAPI.prototype._verifyAddress = function (dogeAddr, callback) {
 
 // Queries DogeChain to verify the legitimacy of an address
 DogeAPI.prototype._dogeChainVerify = function(dogeAddr, callback) {
-	var self = this;
+  var self = this;
   request('http://dogechain.info/chain/Dogecoin/q/checkaddress/'+dogeAddr, function (error, response, body) {
     if(error) return callback(error);
     if(response.statusCode === 200) {
@@ -1255,7 +1255,7 @@ DogeAPI.prototype._dogeChainVerify = function(dogeAddr, callback) {
 
 // Check to make sure we have an API key
 DogeAPI.prototype._checkAPIKey = function (callback) {
-	var self = this;
+  var self = this;
   if(self._apikey === undefined || self._apikey === '' || self._apikey === null) {
     return callback('Missing API key.');
   }
