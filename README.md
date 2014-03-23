@@ -3,10 +3,6 @@ DogeAPI.js
 
 Official [Documentation](https://dogeapi.com/api_documentation)
 
-Author
-------
-Adam Schodde
-
 Version
 -------
 2.0.1
