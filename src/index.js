@@ -1249,6 +1249,9 @@ DogeAPI.prototype._dogeChainVerify = function(dogeAddr, callback) {
         default:
         return callback();
       }
+    } else {
+      // Some other kind of response from Dogechain, let's not deal with it.
+      return callback();
     }
   });
 };
